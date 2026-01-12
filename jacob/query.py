@@ -57,7 +57,7 @@ def main():
     #     return
         
     # query_text = sys.argv[1]
-    query_text="What is the best candidate for backend role?"
+    query_text="give me the man from place kannur?"
     query_rag(query_text)
 
 if __name__ == "__main__":

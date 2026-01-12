@@ -80,7 +80,7 @@ def main():
     #     return
         
     # query_text = sys.argv[1]
-    query_text="I want a a developer who can build a ios app"
+    query_text="give me the devolpers from kannur"
     query_rag(query_text)
 
 if __name__ == "__main__":
