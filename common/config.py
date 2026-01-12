@@ -9,6 +9,6 @@ FINE_TUNED_MODEL_PATH = "fine_tuned_model"
 if os.path.exists(FINE_TUNED_MODEL_PATH):
     EMBEDDING_MODEL_NAME = FINE_TUNED_MODEL_PATH
 else:
-    EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+    EMBEDDING_MODEL_NAME = "nomic-embed-text"
 
 MODEL_NAME = "llama3.2:3b"
