@@ -1,5 +1,5 @@
 langchain-community
-langchain-huggingface
+# langchain-huggingface
 langchain-chroma
 pypdf
 transformers
