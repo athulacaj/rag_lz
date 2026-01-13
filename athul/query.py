@@ -39,8 +39,7 @@ def query_rag(query_text):
     # 3. Vector Retrieval
     embeddings = OllamaEmbeddings(model=config.EMBEDDING_MODEL_NAME)
     db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
-    results_with_score = db.similarity_search_with_score(query_text, k=10)
-    vector_results = [doc for doc, score in results_with_score if score > 0.75]
+    vector_results = db.similarity_search(query_text, k=10)
     
     # 4. Manual Merge (deduplicate by chunk content)
     seen = set()
@@ -85,7 +84,7 @@ def query_rag(query_text):
         print(f"- {doc.metadata.get('source', 'Unknown')}")
 
 def main():
-    query_text = "Which candidates show an interest in sports or athletic activities in their resumes?"
+    query_text = "Pick freshers who recenltly passed out"
     query_rag(query_text)
 
 if __name__ == "__main__":
