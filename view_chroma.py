@@ -86,8 +86,14 @@ def main():
         
         total_docs = len(ids)
         
+    
         # --- Sidebar ---
         st.sidebar.markdown("## ⚙️ Filter & Options")
+        
+        # Section Filter
+        section_options = ["All", "summary", "skills", "experience", "education", "projects", "certifications", "achievements", "interests", "languages", "publications", "references", "personal"]
+        selected_section = st.sidebar.selectbox("Filter by Section", section_options)
+        
         search_query = st.sidebar.text_input("🔍 Search Content", placeholder="Type to search...")
         
         # Stats in Sidebar
@@ -103,13 +109,24 @@ def main():
         # View Toggle or Sort (Simple for now)
         
         # --- Filtering Logic ---
+
         filtered_indices = []
         for i in range(total_docs):
             doc_content = documents[i] if documents[i] else ""
+            doc_meta = metadatas[i] if metadatas[i] else {}
+            
+            match_section = True
+            if selected_section != "All":
+                meta_section = str(doc_meta.get("section", doc_meta.get("heading", ""))).lower()
+                if meta_section != selected_section.lower():
+                    match_section = False
+            
+            match_search = True
             if search_query:
-                if search_query.lower() in doc_content.lower():
-                    filtered_indices.append(i)
-            else:
+                if search_query.lower() not in doc_content.lower():
+                    match_search = False
+            
+            if match_section and match_search:
                 filtered_indices.append(i)
 
         st.markdown(f"### Showing {len(filtered_indices)} Documents")

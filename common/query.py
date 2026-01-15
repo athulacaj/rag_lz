@@ -12,7 +12,8 @@ def query_rag(query_text):
     # 1. BM25 Retrieval
     chunks = load_bm25_chunks()
     if chunks is None: return
-    bm25_docs = get_bm25_results(chunks, query_text)
+    # bm25_docs = get_bm25_results(chunks, query_text)
+    bm25_docs = []
     
     # 2. Vector Retrieval
     vector_docs = get_vector_results(query_text)

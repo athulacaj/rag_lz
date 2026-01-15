@@ -42,8 +42,9 @@ def get_bm25_results(chunks, query_text):
 def get_vector_results(query_text):
     """Retrieves documents using vector similarity."""
     embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
+    # use NER to get the section
     db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings, collection_name=COLLECTION_NAME)
-    results = db.similarity_search_with_score(query_text, k=10)
+    results = db.similarity_search_with_score(query_text, k=10,filter={"section": "interests"})
     # Filter by score
     return [doc for doc, score in results if score > 0.75]
 
@@ -70,6 +71,17 @@ def rerank_documents(query_text, docs):
     # Sort and take top 5
     ranked = sorted(zip(docs, scores), key=lambda x: x[1], reverse=True)
     return [doc for doc, _ in ranked[:5]]
+
+def merge_same_source(docs):
+    """Merges documents with the same source."""
+    merge_dict={}
+    for doc in docs:
+        source = doc.metadata.get('source', 'Unknown')
+        if(merge_dict[source]):
+            merge_dict[source].page_content += "\n\n" + doc.page_content
+        else:
+            merge_dict[source] = doc
+    return list(merge_dict.values())
 
 def generate_answer(query_text, context_docs):
     """Generates answer using LLM."""
