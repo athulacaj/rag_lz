@@ -1,34 +1,5 @@
-Query: Which candidates show an interest in sports can develop a android app
+Query: is athul interested in sports
 Context: 
-            This is the cv of Anna Mary Joy
-            # Personal information
-             Name: Anna Mary Joy
-             Email: agnesmary891@gmail.com
-            
-
-# interests
-
-- Hosted the 'UAV Flight Control Systems and Technologies' workshop at Cochin University of Science and Technology.
-- Served as the Outreach Head for TedxCusat.
-- Member of the college women's Throwball team.
-
-# experience
-
-# **Project Intern at N-OMS**
-
-- Contributed to the N-OMS project, a suite of integrated applications for optimizing organizational operations.
-- Added modules to the Org Activity Management web application, ensuring effective communication within the organization.
-- Utilized React, TypeScript, Node.js, and REST APIs to enhance the application.
-- Collaborated with the team to integrate functionalities and improve system performance.
-
-# skills
-
-- **Languages**: Python, Java (basic), C, C++, HTML, CSS, SQL, TypeScript, JavaScript, Java(basics)
-- **Technical Skills**: Software Engineering, Data Structures, REST APIs
-
----
-
-
             This is the cv of Athul Jacob
             # Personal information
              Name: Athul Jacob
@@ -40,113 +11,28 @@ Context:
 Playing Football
 
 Teaching
+Answer: I can answer that!
 
-# experience
+According to the provided resume, which is "This is the cv of Athul Jacob", we find under the "# Interests" section:
 
-### **Flutter Developer** 02/2023 - Present
+* Playing Football
 
-Vistas Global
-
-Managing a project with a team of three developers, leveraging my backend expertise to facilitate frontend understanding, integrating the chat feature with my socket.io knowledge, and utilizing a reactive programming approach. I also got experience with RxDart, the Agora Video Call SDK and backend technologies like prisma, swagger.
-
-#### **Software Engineer** 02/2022 - 02/2023 | Trivandrum
-
-LambdaZen India PVT LTD
-
-Experienced React.js Developer with a proven track record of collaborating in a dynamic team of four to deliver efficient and scalable solutions. Proficient in implementing custom hooks, leveraging the Context API for streamlined state management, and utilizing the Material-UI component library for a polished user interface. Successfully integrated the xlsx package to handle large Excel and CSV files, implementing a chunk-wise upload strategy for optimal data transfer to the server. Additionally, extended expertise to Node.js, contributing to the development and maintenance of APIs for seamless system functionality.
-
-#### **Fullstack Developer** 09/2019 - 12/2021
-
-Freelancer
-
-As a freelance developer, I successfully undertook diverse projects, showcasing proficiency in HTML, CSS, JavaScript, Flutter, and Node.js. Notably, I developed a comprehensive Wholesale Management App for a client using Flutter, with Firebase Firestore serving as the database and Node.js for the backend. This app included an integrated payment gateway for seamless transactions. Additionally, I contributed to a web app aimed at providing bank coaching to students, demonstrating adaptability across various technologies to meet client needs effectively.
-
----
-
-
-            This is the cv of ABHIJITH JS
+From this information, I can confidently say that yes, Athul is interested in sports, specifically playing football. Evidence: ["This is the cv of Athul Jacob"]
+Query: is athul and nihal interested in sports
+Context: 
+            This is the cv of Athul Jacob
             # Personal information
-             Name: ABHIJITH JS
-             Email: jsabhijith1290@gmail.com
+             Name: Athul Jacob
+             Email: athul9040@gmail.com
             
 
-# experience
+# interests
 
+Playing Football
 
+Teaching
+Answer: Based on the provided resume of Athul Jacob, I can answer that:
 
----
+Athul Jacob is interested in playing football.
 
-
-            This is the cv of Gayathri SV
-            # Personal information
-             Name: Gayathri SV
-             Email: svgayathri92@gmail.com
-            
-
-# skills
-
-HTML, CSS, JavaScript, ReactJS, NodeJS, MySQL, Jira proficient, Testing and deployment
-
-# experience
-
-#### **Senior Software Engineer, LambdaZen India Private Limited, Kerala**
-
-1 2 / 2 0 1 8 - P re s e n t
-
-- Engineered and developed high-quality software solutions tailored to client needs.
-- Collaborated with cross-functional teams for streamlined software development processes.
-- Mentored junior engineers, fostering skill development and adherence to best practices.
-- Executed comprehensive code reviews to maintain high coding standards and quality.
-- Implemented robust software quality assurance protocols to identify and rectify defects.
-- Mentored and coached team members to improve their understanding of Agile/Scrum principles and best practices
-
-#### **System Engineer, IPSR Solutions Ltd, Kerala**
-
-1 1 / 2 0 1 6 - 1 1 / 2 0 1 8
-
-- Designed, developed, and maintained advanced IT systems and infrastructures aligned with organizational requirements.
-- Evaluated business needs and formulated tailored IT solutions to enhance functionality.
-- Optimized IT system performance and provided actionable improvement recommendations.
-- Collaborated with cross-functional teams to ensure seamless system integration.
-
----
-
-
-            This is the cv of MUHAMMAD NIHAL K M
-            # Personal information
-             Name: MUHAMMAD NIHAL K M
-             Email: Nihalkm123@gmail.com
-            
-
-# experience
-
-### **SOFTWARE ENGINEER**
-
-LAMBDAZEN LLC, TECHNOPARK, TRIVANDRUM Jan 2022 - Present
-
-Technologies Used: React.js, JavaScript, Node.js, HTML, CSS, Apache Druid, Kafka Tools, Azure,
-
-- Designed and developed responsive web pages using HTML, CSS, JavaScript, React.js, and Material-UI.
-- Designed and integrated RESTful APIs using Node.js, enhancing communication between the front-end and back-end services.
-- Collaborated with cross-functional teams to gather requirements, design features, and deliver solutions that aligned with business objectives.
-- Utilized web debugging tools like IE Developer Tools and Chrome DevTools to diagnose issues and enhance application performance.
-- Written complex Druid queries to support data retrieval and analytics, ensuring quick and accurate insights for business decisions.
-- Worked on ItemOptix, an advanced RFID software solution for inventory management, enhancing real-time tracking and visibility across retail operations.
-- Contributed to a Microsoft project, Truth and Insights, by adding new features and improving web accessibility.
-
-# skills
-
-- React Js
-- Node Js
-- JavaScript
-- HTML
-- CSS
-- Apache Druid
-- Typescript
-- Redux
-- Python
-Answer: From the provided CVs, I found that Anna Mary Joy is mentioned to be a member of the college women's Throwball team. This indicates that she has an interest in sports.
-
-Therefore, the answer is: Anna Mary Joy.
-
-(Note: The other candidates do not mention any interest in sports or app development.)
+Source: #interests, Playing Football

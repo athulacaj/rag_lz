@@ -7,7 +7,8 @@
                 "experience"
             ],
             "confidence": "high",
-            "reason": "The user is looking for a developer with expertise in Android app development, which falls under the 'skills' section. Additionally, they are also interested in finding someone who has experience working on Android projects, which can be found in the 'experience' section."
+            "reason": "The user is looking for someone who can develop an Android app. Skills and experience are crucial in determining the candidate's ability to do so.",
+            "filter_query": "(skills:contains('Android') OR experience:contains('mobile development')) AND (skills:contains('Java') OR skills:contains('Kotlin') OR skills:contains('Flutter'))"
         }
     },
     {
@@ -17,7 +18,8 @@
                 "interests"
             ],
             "confidence": "high",
-            "reason": "The user's interest in sports directly relates to their profile, and the 'interests' section is a common place to mention hobbies or extracurricular activities."
+            "reason": "The user is asking about interests, which is directly related to the 'interests' section in the CV.",
+            "filter_query": "interests:contains('sports')"
         }
     },
     {
@@ -26,29 +28,59 @@
             "sections": [
                 "interests"
             ],
-            "confidence": "low",
-            "reason": "The 'interests' section may contain information about sports, including football. However, it's unlikely to be the most relevant section as it's too general and may include other interests that aren't related to football."
+            "confidence": "high",
+            "reason": "The user is asking about someone's ability to play football, which is likely related to their interests and hobbies.",
+            "filter_query": "interests:contains('football')"
         }
     },
     {
         "question": "who worked on lambdazen",
         "section": {
             "sections": [
+                "experience",
                 "projects"
             ],
             "confidence": "high",
-            "reason": "The 'projects' section is likely to contain information about the user's experience with Lambdazen, as it typically lists projects where the user has worked on a product."
+            "reason": "The question is asking about someone who worked on a specific project (LambdaZen), which suggests that the relevant information can be found in the experience and projects sections.",
+            "filter_query": "experience:contains('LambdaZen') OR projects:contains('LambdaZen')"
         }
     },
     {
         "question": "any android developer who is intrested in sports",
         "section": {
             "sections": [
+                "skills",
                 "experience",
                 "interests"
             ],
-            "confidence": "medium",
-            "reason": "The user asked for an Android developer with a focus on sports, suggesting they want to highlight relevant work experience and personal interests."
+            "confidence": "high",
+            "reason": "The user is looking for Android developers who are interested in sports. This requires matching the user's skills and experience with Android development and also checking if they have any interest in sports.",
+            "filter_query": "(skills:contains('Android') OR experience:contains('Android')) AND interests:contains('sports')"
+        }
+    },
+    {
+        "question": "Which of the candidates with an interest in sports have the ability to develop an Android app",
+        "section": {
+            "sections": [
+                "skills",
+                "experience",
+                "interests"
+            ],
+            "confidence": "high",
+            "reason": "The question asks about developing an Android app, which requires specific technical skills and experience. The interest in sports is a filter to narrow down the candidates who have this particular hobby.",
+            "filter_query": "(interests:contains('sports')) AND ((skills:contains('Android') OR experience:contains('mobile development')))"
+        }
+    },
+    {
+        "question": "can athul deveolop web app",
+        "section": {
+            "sections": [
+                "skills",
+                "experience"
+            ],
+            "confidence": "high",
+            "reason": "The user is asking if Athul can develop a web app, which requires proficiency in programming languages and technologies (skills) as well as experience working on similar projects. Interest or projects sections might also be relevant to showcase any personal or professional endeavors that demonstrate Athul's capabilities.",
+            "filter_query": "skills:contains('HTML') AND (experience:contains('web development') OR skills:contains('JavaScript'))"
         }
     }
 ]

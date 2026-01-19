@@ -25,6 +25,34 @@ def create_connection(db_file):
     
     return conn
 
+def get_schema(conn):
+    try:
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT name FROM sqlite_master
+            WHERE type='table' AND name NOT LIKE 'sqlite_%';
+        """)
+
+        schema = {}
+        for (table,) in cursor.fetchall():
+            cursor.execute(f"PRAGMA table_info({table});")
+            schema[table] = [
+                {"column": c[1], "type": c[2]} for c in cursor.fetchall()
+            ]
+
+        return schema
+    except Error as e:
+        logging.error(f"Error getting schema: {e}")
+        return None
+
+def schema_to_text(schema):
+    lines = []
+    for table, cols in schema.items():
+        col_str = ", ".join(f"{c['column']} ({c['type']})" for c in cols)
+        lines.append(f"Table {table}: {col_str}")
+    return "\n".join(lines) 
+
 def create_table(conn, create_table_sql):
     """ 
     Create a table from the create_table_sql statement
@@ -276,6 +304,66 @@ def get_data_by_email(conn, email_or_list):
             
         exp_sql = "SELECT * FROM experience WHERE user_email = ?"
         exp_rows = read_records(conn, exp_sql, (email,))
+        
+        exp_list = []
+        for row in exp_rows:
+            # row is (id, user_email, company_name, start_date, end_date, position, description)
+            exp_dict = {
+                "company_name": row[2],
+                "start_date": row[3],
+                "end_date": row[4],
+                "position": row[5],
+                "description": row[6]
+            }
+            exp_list.append(exp_dict)
+            
+        results.append({
+            "general": user_dict,
+            "experience": exp_list
+        })
+        
+    return results
+
+def get_data_by_name(conn, name_or_list):
+    """
+    Get user and experience data by name(s).
+    
+    :param conn: Connection object
+    :param name_or_list: Single name string or list of names
+    :return: List of dictionaries containing user and experience data
+    """
+    if isinstance(name_or_list, str):
+        names = [name_or_list]
+    else:
+        names = name_or_list
+        
+    results = []
+    
+    for name in names:
+        user_sql = "SELECT * FROM users WHERE name LIKE ?"
+        user_rows = read_records(conn, user_sql, (f"%{name}%",))
+        
+        if not user_rows:
+            continue
+            
+        user_data = user_rows[0]
+        # user_data is a tuple (email, name, position, skills)
+        
+        user_dict = {
+            "email": user_data[0],
+            "name": user_data[1],
+            "position": user_data[2],
+            "skills": user_data[3]
+        }
+        
+        try:
+            if user_dict["skills"]:
+                user_dict["skills"] = json.loads(user_dict["skills"])
+        except:
+            pass
+            
+        exp_sql = "SELECT * FROM experience WHERE user_email = ?"
+        exp_rows = read_records(conn, exp_sql, (user_data[0],))
         
         exp_list = []
         for row in exp_rows:

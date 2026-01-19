@@ -4,70 +4,22 @@ from functions.query_utils import (
     get_vector_results,
     merge_and_deduplicate,
     rerank_documents,
-    generate_answer
+    generate_answer,
+    get_section_using_llm,
+    polish_question
 )
 from functions.make_section import CV_HEADING_PATTERNS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
-from config import MODEL_NAME
+from config import MODEL_NAME,DB_NAME
 import json
+import functions.database_utils as db_utils
 
-def get_section_using_llm(question):
-    TEMPLATE = """
-    You are an expert CV analyzer.
 
-    Your task is to determine which CV section(s) are most relevant to answer a given user question.
 
-    Available CV sections:
-    - summary
-    - skills
-    - experience
-    - education
-    - projects
-    - certifications
-    - achievements
-    - interests
-    - languages
-    - publications
-    - references
-    - personal
-    - general
+def get_connection():
+    return db_utils.get_db_connection(DB_NAME)
 
-    Rules:
-    1. Choose the MOST RELEVANT section(s).
-    2. You may return multiple sections if needed.
-    3. Do NOT invent new sections.
-    4. Prefer:
-    - "skills" → technologies, tools, programming languages
-    - "experience" → worked at, employed, job history
-    - "projects" → built, developed, implemented, worked on a product
-    - "interests" → sports, hobbies, extracurricular activities
-    5. Output ONLY valid JSON.
-    6. If no section is relevant, return "general" section.
-
-    Return format:
-    {{
-    "sections": ["section1", "section2"],
-    "confidence": "high | medium | low",
-    "reason": "short explanation"
-    }}
-
-    Input question:
-
-    {question}
-    """
-    prompt = ChatPromptTemplate.from_template(TEMPLATE)
-    model = ChatOllama(model=MODEL_NAME, format="json")
-    chain = prompt | model
-    response = chain.invoke({"question": question})
-    content = response.content
-    cleaned_content = content.strip()
-    try:
-        json_data = json.loads(cleaned_content)
-        print(json_data)
-        return json_data
-    except json.JSONDecodeError as e:
-        print(f"Failed to decode JSON {e}")
 
 def query_rag(query_text):
     """Main RAG pipeline."""
@@ -77,9 +29,42 @@ def query_rag(query_text):
     # bm25_docs = get_bm25_results(chunks, query_text)
     # bm25_docs = []
     
+   
+    question_dict=polish_question(query_text)
+    names=question_dict["names"]
+    emails=question_dict["emails"]
+    polished_question=question_dict["polished_question"]
+    db_results=[]
+    if(len(emails)>0):
+        with get_connection() as conn:
+            sql_data=db_utils.get_data_by_email(conn,emails)
+            db_results.append({
+                "name":sql_data[0]["general"]["name"],
+                "email":sql_data[0]["general"]["email"],
+            })
+    elif(len(names)>0):
+        with get_connection() as conn:
+            sql_data=db_utils.get_data_by_name(conn,names)
+            for data in sql_data:
+                db_results.append({
+                    "name":data["general"]["name"],
+                    "email":data["general"]["email"],
+                })
+    if polished_question=="not related":
+        print("not related")
+        return
+    print("polished_question: ",polished_question)
+    section=get_section_using_llm(polished_question)
     # 2. Vector Retrieval
-    section=get_section_using_llm(query_text)
-    vector_docs = get_vector_results(query_text,section["sections"])
+    section_names=section["sections"]
+    chunk_ids=[]
+    if(len(db_results)>0):
+        for data in db_results:
+            for section in section_names:
+                chunk_ids.append(data["email"]+"_"+section)
+    
+
+    vector_docs = get_vector_results(polished_question,section_names,chunk_ids)
     
     # 3. Merge & Deduplicate
     # merged_docs = merge_and_deduplicate(bm25_docs, vector_docs)
@@ -94,7 +79,7 @@ def query_rag(query_text):
     top_docs = merged_docs
     
     # 5. Generate Answer
-    answer = generate_answer(query_text, top_docs)
+    answer = generate_answer(query_text, top_docs,section_names)
     
     print(answer)
     print("\nSources:")
@@ -102,7 +87,7 @@ def query_rag(query_text):
         print(f"- {doc.metadata.get('source', 'Unknown')}")
 
 def main():
-    query_text = "Which candidates show an interest in sports can develop a android app"
+    query_text = "is athul and nihal interested in sports"
     query_rag(query_text)
     
 
