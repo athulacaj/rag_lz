@@ -15,7 +15,7 @@ EMBEDDING_MODEL_NAME = "nomic-embed-text"
 # MODEL_NAME = "llama3.2:3b"
 MODEL_NAME = "llama3:8b"
 PARSER_LIST=["marker","docling"]
-PARSER=PARSER_LIST[1]
+PARSER=PARSER_LIST[0]
 DB_NAME="db.db"
 
 SQL_MODEL="qwen2.5-coder:3b"

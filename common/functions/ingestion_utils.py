@@ -385,7 +385,7 @@ def reset_vector_db(db_path: str):
         shutil.rmtree(db_path)
     os.makedirs(db_path, exist_ok=True)
 
-def create_and_persist_db(chunks: List[Document], db_path: str, collection_name: str, model_name: str):
+def create_and_persist_db(chunks: List[Document], db_path: str, collection_name: str, model_name: str,ids:List[str]):
     """Initializes the embedding model and creates the Chroma vector store."""
     print(f"Initializing embedding model '{model_name}'...")
     embeddings = OllamaEmbeddings(model=model_name)
@@ -395,7 +395,8 @@ def create_and_persist_db(chunks: List[Document], db_path: str, collection_name:
         documents=chunks, 
         embedding=embeddings, 
         persist_directory=db_path,
-        collection_name=collection_name
+        collection_name=collection_name,
+        ids=ids
     )
 
     print("Vector store created successfully.")

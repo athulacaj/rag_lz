@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Chat Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Socket.IO Client -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar for Logs -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>System Logs</h2>
+            </div>
+            <div id="log-container" class="log-container">
+                <div class="log-entry system">Waiting for logs...</div>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <h1>AI Assistant</h1>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <div class="message bot">
+                    <div class="message-content">Hello! How can I help you today?</div>
+                </div>
+            </div>
+            <div class="input-area">
+                <form id="chat-form">
+                    <input type="text" id="user-input" placeholder="Type your question..." autocomplete="off">
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

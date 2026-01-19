@@ -36,7 +36,6 @@ def insert_data():
                             metadata={
                                 "source":filename,
                                 "section":section,
-                                "chunk_id":id,
                                 "email":email
                             }
                         )
@@ -49,7 +48,8 @@ def insert_data():
                     chunks=chunks,
                     db_path=DB_PATH,
                     collection_name=COLLECTION_NAME,
-                    model_name=EMBEDDING_MODEL_NAME
+                    model_name=EMBEDDING_MODEL_NAME,
+                    ids=chunk_ids
                 )
 
     # with get_connection() as conn:

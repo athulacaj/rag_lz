@@ -57,13 +57,16 @@ def get_vector_results(query_text,section_list=[],chunk_ids=[]):
         filter={
             "$or": lst
         }
+    
+    results = []
     if(len(chunk_ids)>0):
-        filter={"chunk_id": {"$in": chunk_ids}}
-    results = db.similarity_search_with_score(
-        query_text,
-        k=10,
-        filter=filter
-    )  
+        return db.get_by_ids(chunk_ids)
+    else:
+        results=db.similarity_search_with_score(
+            query_text,
+            k=10,
+            filter=filter
+        )  
     return [doc for doc, score in results]
 
 
