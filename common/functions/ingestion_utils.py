@@ -14,6 +14,7 @@ from langchain_core.documents import Document
 from langchain_ollama import OllamaEmbeddings
 from langchain_chroma import Chroma
 from config import DATA_PATH, DB_PATH, EMBEDDING_MODEL_NAME, COLLECTION_NAME
+
 from functions.gemini_utils import analyze_image_with_gemini
 from PIL import Image
 import io
@@ -387,6 +388,9 @@ def reset_vector_db(db_path: str):
 
 def create_and_persist_db(chunks: List[Document], db_path: str, collection_name: str, model_name: str,ids:List[str]):
     """Initializes the embedding model and creates the Chroma vector store."""
+    if "gemini" in model_name:
+        create_and_persist_db_gemini(chunks, db_path, collection_name, model_name, ids)
+        return
     print(f"Initializing embedding model '{model_name}'...")
     embeddings = OllamaEmbeddings(model=model_name)
 
@@ -397,6 +401,49 @@ def create_and_persist_db(chunks: List[Document], db_path: str, collection_name:
         persist_directory=db_path,
         collection_name=collection_name,
         ids=ids
+    )
+
+    print("Vector store created successfully.")
+
+def create_and_persist_db_gemini(chunks: List[Document], db_path: str, collection_name: str, model_name: str, ids: List[str]):
+    try:
+        from langchain_google_genai import GoogleGenerativeAIEmbeddings
+    except ImportError:
+        GoogleGenerativeAIEmbeddings = None
+    
+    """Initializes the Gemini embedding model and creates the Chroma vector store."""
+    print(f"Initializing Gemini embedding model '{model_name}'...")
+    
+    if GoogleGenerativeAIEmbeddings is None:
+         raise ImportError("langchain_google_genai is not installed. Please install it with `pip install langchain-google-genai`.")
+
+    # Ensure GEMINI_KEY is loaded
+    api_key = os.getenv("GEMINI_KEY")
+    if not api_key:
+        raise ValueError("GEMINI_KEY not found in environment variables.")
+
+    # Filter out empty documents to avoid API errors
+    valid_chunks = []
+    valid_ids = []
+    for i, chunk in enumerate(chunks):
+        if chunk.page_content and chunk.page_content.strip():
+            valid_chunks.append(chunk)
+            if ids and i < len(ids):
+                valid_ids.append(ids[i])
+    
+    if not valid_chunks:
+        print("No valid content to embed. Skipping.")
+        return
+
+    embeddings = GoogleGenerativeAIEmbeddings(model=model_name, google_api_key=api_key)
+
+    print(f"Creating vector store in '{db_path}'...")
+    Chroma.from_documents(
+        documents=valid_chunks, 
+        embedding=embeddings, 
+        persist_directory=db_path,
+        collection_name=collection_name,
+        ids=valid_ids if valid_ids else None
     )
 
     print("Vector store created successfully.")

@@ -15,21 +15,42 @@
         <!-- Sidebar for Logs and History -->
         <div class="sidebar">
             <div class="sidebar-tabs">
-                <button id="tab-logs" class="active">Logs</button>
-                <button id="tab-history">History</button>
+                <button id="tab-history" class="active">History</button>
+                <button id="tab-logs">Logs</button>
+                <button id="tab-settings">Settings</button>
             </div>
-            <div id="log-container" class="log-container">
+            <div id="history-container" class="history-container">
+                <div class="log-entry system">Loading history...</div>
+            </div>
+            <div id="log-container" class="log-container hidden">
                 <div class="log-entry system">Waiting for logs...</div>
             </div>
-            <div id="history-container" class="history-container hidden">
-                <!-- History list -->
+            <div id="settings-container" class="settings-container hidden">
+                <div class="form-group">
+                    <label>Database</label>
+                    <div id="db-name-display" class="value-display">Loading...</div>
+                </div>
+                <div class="form-group">
+                    <label for="embedding-model-select">Embedding Model</label>
+                    <select id="embedding-model-select"></select>
+                </div>
+                <div class="form-group">
+                    <label for="llm-model-select">LLM Model</label>
+                    <select id="llm-model-select"></select>
+                </div>
+                <div class="form-group">
+                    <label for="parser-select">Parser</label>
+                    <select id="parser-select"></select>
+                </div>
             </div>
+
         </div>
 
         <!-- Main Chat Area -->
         <div class="chat-area">
             <div class="chat-header">
                 <h1>AI Assistant</h1>
+                <button id="new-chat-btn" class="new-chat-btn">New Chat +</button>
             </div>
             <div id="chat-messages" class="chat-messages">
                 <div class="message bot">
@@ -37,6 +58,11 @@
                 </div>
             </div>
             <div class="input-area">
+                <div id="model-status-bar" class="model-status-bar" title="Click to change settings">
+                    <span id="status-embedding">Embedding: ...</span>
+                    <span class="divider">|</span>
+                    <span id="status-llm">LLM: ...</span>
+                </div>
                 <form id="chat-form">
                     <input type="text" id="user-input" placeholder="Type your question..." autocomplete="off">
                     <button type="submit">Send</button>

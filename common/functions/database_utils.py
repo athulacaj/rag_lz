@@ -384,7 +384,7 @@ def get_data_by_name(conn, name_or_list):
         
     return results
 
-def read_db_by_sql(conn, sql, params=None):
+def get_data_by_sql(conn, sql, params=None):
     """
     Execute a read-only SQL query.
     

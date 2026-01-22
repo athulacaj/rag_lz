@@ -14,7 +14,10 @@ sys.path.append(project_root)
 sys.path.append(common_dir)
 
 import functions.database_utils as db_utils
-from config import DB_NAME
+from config import DB_NAME,EMBEDDING_MODELS,MODEL_COLLECTIONS,PARSER_LIST
+
+
+
 
 try:
     # We use common.query if we want to be explicit, but since common is in path, 
@@ -59,6 +62,15 @@ rag_logger.addHandler(ws_handler)
 # Also attach to root logger or app logger if we want more logs?
 # For now, just 'rag_logger' as requested: "add this log call in the query.py page"
 
+@app.route('/config', methods=['GET'])
+def get_config():
+    return jsonify({
+        "DB_NAME": DB_NAME,
+        "EMBEDDING_MODELS": EMBEDDING_MODELS,
+        "MODEL_COLLECTIONS": MODEL_COLLECTIONS,
+        "PARSER_LIST": PARSER_LIST
+    })
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -79,8 +91,13 @@ def chat():
     ch.setLevel(logging.INFO)
     rag_logger.addHandler(ch)
     
+    db_name = data.get('db_name')
+    embedding_model = data.get('embedding_model')
+    model = data.get('model')
+    parser = data.get('parser')
+
     try:
-        answer, context_str = query_rag(question)
+        answer, context_str = query_rag(question, model_name=model, embedding_model=embedding_model, parser=parser, db_name=db_name)
         
         # Save to DB
         captured_logs = log_capture_string.getvalue()

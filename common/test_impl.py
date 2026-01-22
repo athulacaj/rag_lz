@@ -47,7 +47,7 @@ def get_sql(ques):
 
 def query_sql():
     with get_connection() as conn:
-       d= db_utils.read_db_by_sql(conn,"SELECT u.name FROM users AS u JOIN experience AS e ON u.email = e.user_email WHERE e.company_name  LIKE '%LambdaZen%'")
+       d= db_utils.get_data_by_sql(conn,"SELECT u.name FROM users AS u JOIN experience AS e ON u.email = e.user_email WHERE e.company_name  LIKE '%LambdaZen%'")
        print(d)
 
 
@@ -56,21 +56,41 @@ def query_vector(query_text):
     get_section_using_llm,get_sql_using_llm,get_data_using_llm,
     get_vector_results,polish_question
 )
-    section_names=["interest"]
-    chunk_ids=["athul9040@gmail.com_interests"]
+    section_names=[]
+    chunk_ids=[]
     results =get_vector_results(query_text,section_names,chunk_ids)
     print(results)
+
+def check_need_more_context():
+    from functions.query_utils import (
+    get_section_using_llm,get_sql_using_llm,get_data_using_llm,
+    get_vector_results,polish_question,check_need_more_context_needed
+)
+    context="""
+# start of SQL Data
+##This query will return the names of users who have worked at lambdazen.: in csv format:
+name
+Athul Jacob
+Gayathri SV
+MUHAMMAD NIHAL K M
+# end of SQL Data
+    """
+    result=check_need_more_context_needed("who worked on lambdazen",context)
+    print(result)
 
 if __name__ == "__main__":
     # query_sql()
     # ques="who worked on lambdazen"
     # get_sql(ques)
-    # query_vector("is athul and nihal interested in sports")
-    from functions.query_utils import (
-     polish_question
-    )
-    print("calling with mode",MODEL_NAME)
-    r=polish_question("hi can athul develop web app")
-    # r=get_data_using_gemini("hi can athul develop web app")
-    get_data_using_gemini("hi can athul develop web app","","")
-    print(r)
+    # query_vector("who can develop android app")
+    # from functions.query_utils import (
+    #  polish_question
+    # )
+    # print("calling with mode",MODEL_NAME)
+    # r=polish_question("hi can athul develop web app")
+    # # r=get_data_using_gemini("hi can athul develop web app")
+    # get_data_using_gemini("hi can athul develop web app","","")
+    # print(r)
+    check_need_more_context()
+
+

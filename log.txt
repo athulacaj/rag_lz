@@ -2357,3 +2357,246 @@ Answer: Based on the provided context, the following details are available about
 - Professional Title: SENIOR FLUTTER DEVELOPER
 
 The information is sourced from the document marked as "=== CANDIDATE START ===" and ending at "=== CANDIDATE END ===", which includes Athul Jacob's details.
+Query: who has the skill to  devlop a ios app
+Context: 
+
+Today's date is 2026-01-21 in dd-mm-yyyy format 
+
+{
+    "candidate_list": [
+        {
+            "personal_information": {
+                "name": "ABHIJITH JS",
+                "email": "jsabhijith1290@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "skills",
+                    "content": "- Languages: JavaScript (Node.js), Java (basic)\n- Backend: Node.js, Express.js\n- Databases: MongoDB, MySQL\n- Version Control Systems: Git, GitLab\n- Tools and IDEs: Postman, VS Code, Eclipse\n- Core Concepts: REST API, CRUD Operations, MVC Architecture"
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "Athul Jacob",
+                "email": "athul9040@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "experience",
+                    "content": "### **Flutter Developer** 02/2023 - Present\n\nVistas Global\n\nManaging a project with a team of three developers, leveraging my backend expertise to facilitate frontend understanding, integrating the chat feature with my socket.io knowledge, and utilizing a reactive programming approach. I also got experience with RxDart, the Agora Video Call SDK and backend technologies like prisma, swagger.\n\n#### **Software Engineer** 02/2022 - 02/2023 | Trivandrum\n\nLambdaZen India PVT LTD\n\nExperienced React.js Developer with a proven track record of collaborating in a dynamic team of four to deliver efficient and scalable solutions. Proficient in implementing custom hooks, leveraging the Context API for streamlined state management, and utilizing the Material-UI component library for a polished user interface. Successfully integrated the xlsx package to handle large Excel and CSV files, implementing a chunk-wise upload strategy for optimal data transfer to the server. Additionally, extended expertise to Node.js, contributing to the development and maintenance of APIs for seamless system functionality.\n\n#### **Fullstack Developer** 09/2019 - 12/2021\n\nFreelancer\n\nAs a freelance developer, I successfully undertook diverse projects, showcasing proficiency in HTML, CSS, JavaScript, Flutter, and Node.js. Notably, I developed a comprehensive Wholesale Management App for a client using Flutter, with Firebase Firestore serving as the database and Node.js for the backend. This app included an integrated payment gateway for seamless transactions. Additionally, I contributed to a web app aimed at providing bank coaching to students, demonstrating adaptability across various technologies to meet client needs effectively."
+                },
+                {
+                    "section": "skills",
+                    "content": "Flutter Node.js React.js\n\nFast Learner Programming\n\nAdaptability Git Swagger\n\nJavascript Firebase Typescript\n\nExpress MongoDB\n\nPostgreSQL Docker\n\n# **Links**\n\n[Linkedin : athul-jacob-923950213](https://www.linkedin.com/in/athul-jacob-923950213/)\n\n[Github : athulacaj](https://github.com/athulacaj)\n\nPlaystore: www.attaras.com."
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "MUHAMMAD NIHAL K M",
+                "email": "Nihalkm123@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "skills",
+                    "content": "- React Js\n- Node Js\n- JavaScript\n- HTML\n- CSS\n- Apache Druid\n- Typescript\n- Redux\n- Python"
+                },
+                {
+                    "section": "experience",
+                    "content": "### **SOFTWARE ENGINEER**\n\nLAMBDAZEN LLC, TECHNOPARK, TRIVANDRUM Jan 2022 - Present\n\nTechnologies Used: React.js, JavaScript, Node.js, HTML, CSS, Apache Druid, Kafka Tools, Azure,\n\n- Designed and developed responsive web pages using HTML, CSS, JavaScript, React.js, and Material-UI.\n- Designed and integrated RESTful APIs using Node.js, enhancing communication between the front-end and back-end services.\n- Collaborated with cross-functional teams to gather requirements, design features, and deliver solutions that aligned with business objectives.\n- Utilized web debugging tools like IE Developer Tools and Chrome DevTools to diagnose issues and enhance application performance.\n- Written complex Druid queries to support data retrieval and analytics, ensuring quick and accurate insights for business decisions.\n- Worked on ItemOptix, an advanced RFID software solution for inventory management, enhancing real-time tracking and visibility across retail operations.\n- Contributed to a Microsoft project, Truth and Insights, by adding new features and improving web accessibility."
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "Anna Mary Joy",
+                "email": "agnesmary891@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "experience",
+                    "content": "# **Project Intern at N-OMS**\n\n- Contributed to the N-OMS project, a suite of integrated applications for optimizing organizational operations.\n- Added modules to the Org Activity Management web application, ensuring effective communication within the organization.\n- Utilized React, TypeScript, Node.js, and REST APIs to enhance the application.\n- Collaborated with the team to integrate functionalities and improve system performance."
+                },
+                {
+                    "section": "skills",
+                    "content": "- **Languages**: Python, Java (basic), C, C++, HTML, CSS, SQL, TypeScript, JavaScript, Java(basics)\n- **Technical Skills**: Software Engineering, Data Structures, REST APIs"
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "Gayathri SV",
+                "email": "svgayathri92@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "skills",
+                    "content": "HTML, CSS, JavaScript, ReactJS, NodeJS, MySQL, Jira proficient, Testing and deployment"
+                },
+                {
+                    "section": "experience",
+                    "content": "#### **Senior Software Engineer, LambdaZen India Private Limited, Kerala**\n\n1 2 / 2 0 1 8 - P re s e n t\n\n- Engineered and developed high-quality software solutions tailored to client needs.\n- Collaborated with cross-functional teams for streamlined software development processes.\n- Mentored junior engineers, fostering skill development and adherence to best practices.\n- Executed comprehensive code reviews to maintain high coding standards and quality.\n- Implemented robust software quality assurance protocols to identify and rectify defects.\n- Mentored and coached team members to improve their understanding of Agile/Scrum principles and best practices\n\n#### **System Engineer, IPSR Solutions Ltd, Kerala**\n\n1 1 / 2 0 1 6 - 1 1 / 2 0 1 8\n\n- Designed, developed, and maintained advanced IT systems and infrastructures aligned with organizational requirements.\n- Evaluated business needs and formulated tailored IT solutions to enhance functionality.\n- Optimized IT system performance and provided actionable improvement recommendations.\n- Collaborated with cross-functional teams to ensure seamless system integration."
+                }
+            ]
+        }
+    ]
+}
+Answer: I cannot find this information in the provided resumes.
+
+Query: what is the skills of athul
+Context: 
+
+Today's date is 2026-01-21 in dd-mm-yyyy format 
+
+{
+    "candidate_list": [
+        {
+            "personal_information": {
+                "name": "Athul Jacob",
+                "email": "athul9040@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "skills",
+                    "content": "Flutter Node.js React.js\n\nFast Learner Programming\n\nAdaptability Git Swagger\n\nJavascript Firebase Typescript\n\nExpress MongoDB\n\nPostgreSQL Docker\n\n# **Links**\n\n[Linkedin : athul-jacob-923950213](https://www.linkedin.com/in/athul-jacob-923950213/)\n\n[Github : athulacaj](https://github.com/athulacaj)\n\nPlaystore: www.attaras.com."
+                }
+            ]
+        }
+    ]
+}
+Answer: Athul’s skills are Flutter Node.js React.js, Fast Learner Programming, Adaptability, Git, Swagger, Javascript, Firebase, Typescript, Express, MongoDB, PostgreSQL, Docker, and Playstore.
+
+**Reasoning:**
+
+The context provides a detailed list of Athul’s skills directly stated within the “skills” section of his LinkedIn profile. The profile explicitly lists these skills: Flutter Node.js React.js, Fast Learner Programming, Adaptability, Git, Swagger, Javascript, Firebase, Typescript, Express, MongoDB, PostgreSQL, Docker, and Playstore.
+
+Query: hi how are you
+Context: 
+
+Today's date is 2026-01-21 in dd-mm-yyyy format 
+
+{
+    "candidate_list": [
+        {
+            "personal_information": {
+                "name": "Anna Mary Joy",
+                "email": "agnesmary891@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "general",
+                    "content": "# **Anna Mary Joy**\n\n### **Full-Stack Developer**\n\n+919567170459 agnesmary891@gmail.com 4C Brown Stone Manor, Padamugal, Kakkanad, Kerala"
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "ABHIJITH JS",
+                "email": "jsabhijith1290@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "general",
+                    "content": "# ABHIJITH JS\n\n## N O D E J S B A C K E N D E N G I N E E R\n\n- +91 7012391742\n- jsabhijith1290@gmail.com\n- Thiruvananthapuram, Kerala"
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "MUHAMMAD NIHAL K M",
+                "email": "Nihalkm123@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "general",
+                    "content": "# MUHAMMAD NIHAL K M\n\n### S O F T W A R E D E V E L O P E R\n\n![](_page_0_Picture_2.jpeg)\n\n![](_page_0_Picture_3.jpeg)\n\nNihalkm123@gmail.com\n\nKannur, Kerala\n\nhttps://www.linkedin.com/in/ muhammad-nihal-k-m/"
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "Athul Jacob",
+                "email": "athul9040@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "general",
+                    "content": "# **Athul Jacob**\n\n\nathul9040@gmail.com \u00a7\n\n\n# SENIOR FLUTTER DEVELOPER\n\n![](_page_0_Picture_4.jpeg)"
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "Gayathri SV",
+                "email": "svgayathri92@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "general",
+                    "content": "# Gayathri SV\n\nSENIOR SOFTWARE ENGINEER"
+                }
+            ]
+        }
+    ]
+}
+Answer: I cannot find this information in the provided resumes.
+
+Query: who can devlop ios app
+Context: 
+
+Today's date is 2026-01-21 in dd-mm-yyyy format 
+
+{
+    "candidate_list": [
+        {
+            "personal_information": {
+                "name": "Athul Jacob",
+                "email": "athul9040@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "experience",
+                    "content": "### **Flutter Developer** 02/2023 - Present\n\nVistas Global\n\nManaging a project with a team of three developers, leveraging my backend expertise to facilitate frontend understanding, integrating the chat feature with my socket.io knowledge, and utilizing a reactive programming approach. I also got experience with RxDart, the Agora Video Call SDK and backend technologies like prisma, swagger.\n\n#### **Software Engineer** 02/2022 - 02/2023 | Trivandrum\n\nLambdaZen India PVT LTD\n\nExperienced React.js Developer with a proven track record of collaborating in a dynamic team of four to deliver efficient and scalable solutions. Proficient in implementing custom hooks, leveraging the Context API for streamlined state management, and utilizing the Material-UI component library for a polished user interface. Successfully integrated the xlsx package to handle large Excel and CSV files, implementing a chunk-wise upload strategy for optimal data transfer to the server. Additionally, extended expertise to Node.js, contributing to the development and maintenance of APIs for seamless system functionality.\n\n#### **Fullstack Developer** 09/2019 - 12/2021\n\nFreelancer\n\nAs a freelance developer, I successfully undertook diverse projects, showcasing proficiency in HTML, CSS, JavaScript, Flutter, and Node.js. Notably, I developed a comprehensive Wholesale Management App for a client using Flutter, with Firebase Firestore serving as the database and Node.js for the backend. This app included an integrated payment gateway for seamless transactions. Additionally, I contributed to a web app aimed at providing bank coaching to students, demonstrating adaptability across various technologies to meet client needs effectively."
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "Anna Mary Joy",
+                "email": "agnesmary891@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "experience",
+                    "content": "# **Project Intern at N-OMS**\n\n- Contributed to the N-OMS project, a suite of integrated applications for optimizing organizational operations.\n- Added modules to the Org Activity Management web application, ensuring effective communication within the organization.\n- Utilized React, TypeScript, Node.js, and REST APIs to enhance the application.\n- Collaborated with the team to integrate functionalities and improve system performance."
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "MUHAMMAD NIHAL K M",
+                "email": "Nihalkm123@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "experience",
+                    "content": "### **SOFTWARE ENGINEER**\n\nLAMBDAZEN LLC, TECHNOPARK, TRIVANDRUM Jan 2022 - Present\n\nTechnologies Used: React.js, JavaScript, Node.js, HTML, CSS, Apache Druid, Kafka Tools, Azure,\n\n- Designed and developed responsive web pages using HTML, CSS, JavaScript, React.js, and Material-UI.\n- Designed and integrated RESTful APIs using Node.js, enhancing communication between the front-end and back-end services.\n- Collaborated with cross-functional teams to gather requirements, design features, and deliver solutions that aligned with business objectives.\n- Utilized web debugging tools like IE Developer Tools and Chrome DevTools to diagnose issues and enhance application performance.\n- Written complex Druid queries to support data retrieval and analytics, ensuring quick and accurate insights for business decisions.\n- Worked on ItemOptix, an advanced RFID software solution for inventory management, enhancing real-time tracking and visibility across retail operations.\n- Contributed to a Microsoft project, Truth and Insights, by adding new features and improving web accessibility."
+                }
+            ]
+        },
+        {
+            "personal_information": {
+                "name": "Gayathri SV",
+                "email": "svgayathri92@gmail.com"
+            },
+            "sections": [
+                {
+                    "section": "experience",
+                    "content": "#### **Senior Software Engineer, LambdaZen India Private Limited, Kerala**\n\n1 2 / 2 0 1 8 - P re s e n t\n\n- Engineered and developed high-quality software solutions tailored to client needs.\n- Collaborated with cross-functional teams for streamlined software development processes.\n- Mentored junior engineers, fostering skill development and adherence to best practices.\n- Executed comprehensive code reviews to maintain high coding standards and quality.\n- Implemented robust software quality assurance protocols to identify and rectify defects.\n- Mentored and coached team members to improve their understanding of Agile/Scrum principles and best practices\n\n#### **System Engineer, IPSR Solutions Ltd, Kerala**\n\n1 1 / 2 0 1 6 - 1 1 / 2 0 1 8\n\n- Designed, developed, and maintained advanced IT systems and infrastructures aligned with organizational requirements.\n- Evaluated business needs and formulated tailored IT solutions to enhance functionality.\n- Optimized IT system performance and provided actionable improvement recommendations.\n- Collaborated with cross-functional teams to ensure seamless system integration."
+                }
+            ]
+        }
+    ]
+}
+Answer: I cannot find this information in the provided resumes.

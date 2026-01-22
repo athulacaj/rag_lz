@@ -4,6 +4,7 @@ import sys
 import re
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings, ChatOllama
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_community.retrievers import BM25Retriever
 from sentence_transformers import CrossEncoder
@@ -13,6 +14,7 @@ from config import DATA_PATH, DB_PATH, EMBEDDING_MODEL_NAME, MODEL_NAME,COLLECTI
 import functions.database_utils as db_utils
 from functions.gemini_utils import get_gemini_json_response,get_gemini_response
 import json
+from datetime import datetime
 
 
 CHUNKS_FILE = os.path.join(DB_PATH, "chunks.pkl")
@@ -20,7 +22,8 @@ CHUNKS_FILE = os.path.join(DB_PATH, "chunks.pkl")
 PROMPT_TEMPLATE = """
 Answer the question based only on the following context.
 If the answer cannot be found, say "I cannot find this information in the provided resumes."
-
+IF you cannot find the answer from the context, explain why.
+Explain your answer in detail with proper reasoning.
 Context:
 {context}
 
@@ -46,9 +49,41 @@ def get_bm25_results(chunks, query_text):
     retriever.k = 10
     return retriever.invoke(query_text)
 
-def get_vector_results(query_text,section_list=[],chunk_ids=[]):
+def get_vector_results(query_text,section_list=[],chunk_ids=[], embedding_model_name=None,context=""):
+    target_embedding_model = embedding_model_name or EMBEDDING_MODEL_NAME
+    if "gemini" in target_embedding_model:
+        return get_vector_results_gemini(query_text,section_list,chunk_ids, embedding_model_name=target_embedding_model)
+
     """Retrieves documents using vector similarity."""
-    embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL_NAME)
+    embeddings = OllamaEmbeddings(model=target_embedding_model)
+    # use NER to get the section
+    db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings, collection_name=COLLECTION_NAME)
+    lst=[{"section": x} for x in section_list]
+    filter=None
+    if len(section_list)==1:
+        filter=lst[0]
+    elif len(section_list)>1:
+        filter={
+            "$or": lst
+        }
+    
+    results = []
+    if(len(chunk_ids)>0):
+        return db.get_by_ids(chunk_ids)
+    else:
+        results=db.similarity_search_with_score(
+            query_text,
+            k=10,
+            filter=filter
+        )  
+    return [doc for doc, score in results]
+
+def get_vector_results_gemini(query_text,section_list=[],chunk_ids=[], embedding_model_name=None):
+    """Retrieves documents using Gemini vector similarity."""
+    target_embedding_model = embedding_model_name or EMBEDDING_MODEL_NAME
+    # embeddings = OllamaEmbeddings(model=target_embedding_model)
+    api_key = os.getenv("GEMINI_KEY")
+    embeddings = GoogleGenerativeAIEmbeddings(model=target_embedding_model, google_api_key=api_key)
     # use NER to get the section
     db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings, collection_name=COLLECTION_NAME)
     lst=[{"section": x} for x in section_list]
@@ -112,9 +147,14 @@ def merge_same_source(docs):
 def get_connection():
     return db_utils.get_db_connection(DB_NAME)
 
+def get_genearl_context():
+    todays_date=datetime.now().strftime("%Y-%m-%d")
+    return f"\n\nToday's date is {todays_date} in dd-mm-yyyy format \n\n"
 
-def generate_answer(query_text, context_docs,section_list):
+
+def generate_answer(query_text, context_docs,section_list, model_name=None,context=""):
     """Generates answer using LLM."""
+    target_model_name = model_name or MODEL_NAME
     context_index_dict={
         0:[]
     }
@@ -133,17 +173,23 @@ def generate_answer(query_text, context_docs,section_list):
     with get_connection() as conn:
         for email in email_group_content_dict:
             sql_data=db_utils.get_data_by_email(conn,email)
-            result = (
-                f"\t=== CANDIDATE START ===\n"
-                f"\t# This is the cv of {sql_data[0]['general']['name']}\n"
-                f"\t## Personal information\n"
-                f"\tName: {sql_data[0]['general']['name']}\n"
-                f"\tEmail: {sql_data[0]['general']['email']}\n"
-            )
+
+            candidate_data = {
+                "personal_information": {
+                    "name": sql_data[0]['general']['name'],
+                    "email": sql_data[0]['general']['email']
+                },
+                "sections": []
+            }
+            
             for doc in email_group_content_dict[email]:
-                result += f"\n\n\t## {doc.metadata.get('section', 'contents')}\n\n\t{doc.page_content}"
-            context_index_dict[len(email_group_content_dict[email])].append(result)
-            # context_list.append(result)
+                candidate_data["sections"].append({
+                    "section": doc.metadata.get('section', 'contents'),
+                    "content": doc.page_content
+                })
+            
+            context_index_dict[len(email_group_content_dict[email])].append(candidate_data)
+
         for keys in context_index_dict:
             if len(context_list) >= maximum_cv:
                     break
@@ -152,18 +198,20 @@ def generate_answer(query_text, context_docs,section_list):
                 if len(context_list) >= maximum_cv:
                     break
     
-
-    context_text = "\n\n=== CANDIDATE END ===\n\n".join(context_list)
-    context_text+="\n\n=== CANDIDATE END ===\n\n"
+    context_text=get_genearl_context()
+    context_text+="\n\n"+context+"\n\n"
+    result={}
+    result["candidate_list"]=context_list
+    context_text += json.dumps(result, indent=4)
    
-    if MODEL_NAME=="gemini":
+    if target_model_name=="gemini":
         content=get_data_using_gemini(query_text,PROMPT_TEMPLATE,context_text,is_json=False)
         return  content,context_text
     template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     prompt = template.format(context=context_text, question=query_text)
     
-    print(f"\nGenerating answer using {MODEL_NAME}...\n")
-    model = ChatOllama(model=MODEL_NAME)
+    print(f"\nGenerating answer using {target_model_name}...\n")
+    model = ChatOllama(model=target_model_name)
     response = model.invoke(prompt)
     content=response.content
      #  write to a log file
@@ -175,7 +223,8 @@ def generate_answer(query_text, context_docs,section_list):
     return content,context_text
 
 
-def get_section_using_llm(question):
+def get_section_using_llm(question, model_name=None):
+    target_model_name = model_name or MODEL_NAME
     TEMPLATE = """
     You are an expert CV analyzer.
 
@@ -212,11 +261,11 @@ def get_section_using_llm(question):
 
     before answering check this question do this question needs sections skills,experience,interest,projects,education,general information.
     """
-    if MODEL_NAME=="gemini":
+    if target_model_name=="gemini":
         res_dict=get_data_using_gemini(question,TEMPLATE,"")
         return  res_dict
     prompt = ChatPromptTemplate.from_template(TEMPLATE)
-    model = ChatOllama(model=MODEL_NAME, format="json")
+    model = ChatOllama(model=target_model_name, format="json")
     chain = prompt | model
     response = chain.invoke({"question": question})
     content = response.content
@@ -235,7 +284,7 @@ def get_sql_using_llm(question,schema_text):
     Do NOT hallucinate or invent new tables or columns or try to answer if the question is not clear or not applicable to this context.
 
     ##Database schema:
-    {schema_text}
+    {context}
 
     ##input question:
     {question}
@@ -251,13 +300,22 @@ def get_sql_using_llm(question,schema_text):
     - Return NA if the question is not related to the database or if the question is ambiguous or cannot be answered using the database
     - split_query_list give you the query with only one condition. if the question is complex then split_query_list will have more than one query.
     -The response should be in the following format:
+    - try to use select * if possible   
     
     {{
-    "query": "sql query",
-    "reason": "short explanation",
-    "query_object":give json object of the query. for eg:'query_object': {{'table': 'users', 'columns': ['name'], 'conditions': {{'column': 'skills', 'operator': 'LIKE', 'value': '%web app%'}}}}
+    "query": "select * from table_name where condition",
+    "headers": "list of headers of the table that is selected (always should be a list)",
+    "format_result":"respond with what data will it have "
+    }}
+    eg: {{
+    "query": "SELECT u.name, u.email FROM users AS u JOIN experience AS e ON u.email = e.user_email WHERE e.company_name  LIKE '%abc%'",
+    "headers": ["name","email"],
+    "format_result":"This data will have the name and email of the user who has worked at abc"
     }}
     """
+    if SQL_MODEL=="gemini":
+        res_dict=get_data_using_gemini(question,TEMPLATE,schema_text)
+        return  res_dict
     prompt = ChatPromptTemplate.from_template(TEMPLATE)
     model = ChatOllama(model=SQL_MODEL, format="json")
     chain = prompt | model
@@ -271,9 +329,13 @@ def get_sql_using_llm(question,schema_text):
     except json.JSONDecodeError as e:
         print(f"Failed to decode JSON {e}")
 
-def get_data_using_llm(question,TEMPLATE,context=""):
+def get_data_using_llm(question,TEMPLATE,context="", model_name=None):
+    target_model_name = model_name or MODEL_NAME
+    if target_model_name=="gemini":
+        data=get_data_using_gemini(question,TEMPLATE,context)
+        return data
     prompt = ChatPromptTemplate.from_template(TEMPLATE)
-    model = ChatOllama(model=MODEL_NAME, format="json",temperature=0.0)
+    model = ChatOllama(model=target_model_name, format="json",temperature=0.0)
     chain = prompt | model
     response = chain.invoke({"question": question,"context":context})
     content = response.content
@@ -307,7 +369,8 @@ def get_data_using_gemini(question,TEMPLATE,context="",**args):
         return None
 
 
-def polish_question(question):
+def polish_question(question, model_name=None):
+    target_model_name = model_name or MODEL_NAME
     TEMPLATE="""
     ## context:
     - skills : programming languages, tools, technologies
@@ -400,18 +463,14 @@ def polish_question(question):
     ##input question:
     {question}
     """
-    # question_dict=get_data_using_llm(question,TEMPLATE,"")
-    if MODEL_NAME=="gemini":
-        question_dict=get_data_using_gemini(question,TEMPLATE,"")
-    else:
-        question_dict=get_data_using_llm(question,TEMPLATE,"")
+    question_dict=get_data_using_llm(question,TEMPLATE,"", model_name=target_model_name)
     names=question_dict["names"]
     emails=question_dict["emails"]
     polished_question=question_dict["polished_question"]
     # check the names and emails are present in the question
     # by seracrhing it
-    names= [name for name in names if name in question]
-    emails= [email for email in emails if email in question]
+    names = [name for name in names if name.lower() in question.lower()]
+    emails= [email for email in emails if email.lower() in question.lower()]
 
     question_dict["names"]=names
     question_dict["emails"]=emails
@@ -441,6 +500,27 @@ def polish_question(question):
     # short_description = question_dict.get("short_description", "").lower()
 
 
+    return question_dict
+
+
+def check_need_more_context_needed(question,context):
+    TEMPLATE = """
+    You are a question analyzer.
+    Your task is to determine if the question needs more context to be answered.
+    ##context:
+    {context}
+    ##input question:
+    {question}
+    
+    Rules:
+    - if the question is clear and can be answered using the database return "False"
+    - if the question is not clear or cannot be answered using the database return "True"
+    - The response should be in the following format:
+    {{
+    "need_more_context": "True | False"
+    }}
+    """
+    question_dict=get_data_using_llm(question,TEMPLATE,context, model_name=MODEL_NAME)
     return question_dict
 
 if __name__ == "__main__":

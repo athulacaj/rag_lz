@@ -57,7 +57,7 @@ def insert_data():
 
 
 def main():
-    reset_vector_db(DB_PATH)
+    # reset_vector_db(DB_PATH)
     create_tables()
     insert_data()
 

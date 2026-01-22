@@ -9,21 +9,127 @@ document.addEventListener('DOMContentLoaded', () => {
     // Tabs
     const tabLogs = document.getElementById('tab-logs');
     const tabHistory = document.getElementById('tab-history');
+    const tabSettings = document.getElementById('tab-settings');
     const historyContainer = document.getElementById('history-container');
+    const settingsContainer = document.getElementById('settings-container');
+
+    // Config Elements
+    const dbNameDisplay = document.getElementById('db-name-display');
+    const embeddingSelect = document.getElementById('embedding-model-select');
+    const llmSelect = document.getElementById('llm-model-select');
+    const parserSelect = document.getElementById('parser-select');
+
+    // Status Bar Elements
+    const statusBar = document.getElementById('model-status-bar');
+    const statusEmbedding = document.getElementById('status-embedding');
+    const statusLlm = document.getElementById('status-llm');
+
+    // New Chat Button
+    const newChatBtn = document.getElementById('new-chat-btn');
+
+    // Load Config on Start
+    loadConfig();
+    // Load History on Start (since it is the default tab)
+    loadHistory();
+
+    async function loadConfig() {
+        try {
+            const res = await fetch('/config');
+            const config = await res.json();
+
+            dbNameDisplay.textContent = config.DB_NAME;
+
+            // Helper to populate select
+            const populate = (select, options, storageKey) => {
+                select.innerHTML = '';
+                options.forEach(opt => {
+                    const el = document.createElement('option');
+                    el.value = opt;
+                    el.textContent = opt;
+                    select.appendChild(el);
+                });
+
+                // Load from storage
+                const saved = localStorage.getItem(storageKey);
+                if (saved && options.includes(saved)) {
+                    select.value = saved;
+                }
+
+                // Initial update of status bar if this is one of the relevant selects
+                updateStatusBar();
+
+                // Save on change
+                select.addEventListener('change', () => {
+                    localStorage.setItem(storageKey, select.value);
+                    updateStatusBar();
+                });
+            };
+
+            populate(embeddingSelect, config.EMBEDDING_MODELS, 'rag_embedding_model');
+            populate(llmSelect, config.MODEL_COLLECTIONS, 'rag_llm_model');
+            populate(parserSelect, config.PARSER_LIST, 'rag_parser');
+
+            updateStatusBar(); // Ensure updated initially
+
+        } catch (e) {
+            console.error("Error loading config:", e);
+        }
+    }
+
+    function updateStatusBar() {
+        if (embeddingSelect.value) {
+            statusEmbedding.textContent = `Embedding: ${embeddingSelect.value}`;
+        }
+        if (llmSelect.value) {
+            statusLlm.textContent = `LLM: ${llmSelect.value}`;
+        }
+    }
+
+    statusBar.addEventListener('click', () => {
+        tabSettings.click();
+    });
+
+    newChatBtn.addEventListener('click', () => {
+        // Reset Chat UI
+        chatMessages.innerHTML = `
+            <div class="message bot">
+                <div class="message-content">Hello! How can I help you today?</div>
+            </div>
+        `;
+
+        // Reset Logs
+        logContainer.innerHTML = '<div class="log-entry system">Waiting for logs...</div>';
+
+        // Deselect history items
+        document.querySelectorAll('.history-item').forEach(el => el.classList.remove('active'));
+    });
 
     tabLogs.addEventListener('click', () => {
         tabLogs.classList.add('active');
         tabHistory.classList.remove('active');
+        tabSettings.classList.remove('active');
         logContainer.classList.remove('hidden');
         historyContainer.classList.add('hidden');
+        settingsContainer.classList.add('hidden');
     });
 
     tabHistory.addEventListener('click', () => {
         tabHistory.classList.add('active');
         tabLogs.classList.remove('active');
+        tabSettings.classList.remove('active');
         historyContainer.classList.remove('hidden');
         logContainer.classList.add('hidden');
+        settingsContainer.classList.add('hidden');
         loadHistory();
+    });
+
+    tabSettings.addEventListener('click', () => {
+        tabSettings.classList.add('active');
+        tabLogs.classList.remove('active');
+        tabHistory.classList.remove('active');
+        settingsContainer.classList.remove('hidden');
+        logContainer.classList.add('hidden');
+        historyContainer.classList.add('hidden');
     });
 
     async function loadHistory() {
@@ -41,11 +147,21 @@ document.addEventListener('DOMContentLoaded', () => {
             history.forEach(item => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'history-item';
+                itemDiv.dataset.id = item.id; // Store ID in dataset
                 itemDiv.innerHTML = `
                     <div class="history-question">${item.question}</div>
                     <div class="history-date">${new Date(item.timestamp).toLocaleString()}</div>
                 `;
-                itemDiv.addEventListener('click', () => loadHistoryDetails(item.id));
+
+                itemDiv.addEventListener('click', function () {
+                    // Remove active class from all items
+                    document.querySelectorAll('.history-item').forEach(el => el.classList.remove('active'));
+                    // Add active class to clicked item
+                    this.classList.add('active');
+
+                    loadHistoryDetails(this.dataset.id);
+                });
+
                 historyContainer.appendChild(itemDiv);
             });
         } catch (e) {
@@ -55,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadHistoryDetails(id) {
         try {
-            const res = await fetch(`/history/${id}`);
+            // Add timestamp to prevent caching
+            const res = await fetch(`/history/${id}?t=${new Date().getTime()}`);
             const data = await res.json();
 
             if (data.error) {
@@ -172,7 +289,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ question: text }),
+                body: JSON.stringify({
+                    question: text,
+                    db_name: dbNameDisplay.textContent,
+                    embedding_model: embeddingSelect.value,
+                    model: llmSelect.value,
+                    parser: parserSelect.value
+                }),
                 signal: controller.signal
             });
             clearTimeout(timeoutId);
@@ -198,9 +321,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const contentDiv = document.createElement('div');
         contentDiv.className = 'message-content';
 
-        // Simple markdown-ish to html replacement for newlines
-        // For full markdown we'd use a library, but basic whitespace is key
-        contentDiv.innerHTML = text.replace(/\n/g, '<br>');
+        // Simple markdown formatting
+        let formatted = text
+            // Bold: **text**
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            // Bullet points: * text (simple replacement with bullet character)
+            .replace(/(^|\n)\*\s/g, '$1• ')
+            // Newlines
+            .replace(/\n/g, '<br>');
+
+        contentDiv.innerHTML = formatted;
 
         msgDiv.appendChild(contentDiv);
         chatMessages.appendChild(msgDiv);
