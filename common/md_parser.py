@@ -3,8 +3,10 @@ import json
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from functions.make_section import extract_sections
+from functions.query_utils import get_data_using_llm
 import re
-from common.config import MODEL_NAME,PARSER
+from config import MODEL_NAME,PARSER,PROJECT
+
 should_owerrite=False
 
 GENERAL_TEMPLATE = """Role: You are an expert Resume/CV Parser.
@@ -12,18 +14,22 @@ GENERAL_TEMPLATE = """Role: You are an expert Resume/CV Parser.
 give me a proper Json response which can parse with the following keys:
 
 general: name,email,position
+output: should return a json with key general
 
 Input CV Text:
 
-{cv_text}
+{question}
 """
 SKILLS_TEMPLATE = """
 give me a json response as a list of skills
 no other keys or content would be there only key skills. It should be only a list of skills.It should be clean and simple.
 
+output: should return a json with key skills
+for eg: {{skills:[]}}
+
 Input CV Text:
 
-{cv_text}
+{question}
 """
 EXPERIENCE_TEMPLATE = """
 give me a proper Json response which can parse with the following keys:
@@ -31,9 +37,10 @@ experience:[{{company_name,start_date,end_date,position,description}}]
 here experience is a list of objects with keys company_name,start_date,end_date,position,description.
 Try your best to get the values from the text.If you cant get the values from the text, just return empty string.
 Dont include any other keys or content.
+output: should return a json with key experience
 
 Input CV Text:
-{cv_text}
+{question}
 """
 
 FULL_TEMPLATE = """
@@ -46,8 +53,9 @@ here experience is a list of objects with keys company_name,start_date,end_date,
 
 Try your best to get the values from the text.If you cant get the values from the text, just return empty string.
 Dont include any other keys or content.
+re
 Input CV Text:
-{cv_text}
+{question}
 """
 
 # Define the Prompt Template
@@ -90,30 +98,24 @@ def parser_with_llm(data,cv_data):
     structured_data={}
     for key, value in prompts_template.items():
         print("calling llm for key ",key)
-        prompt = ChatPromptTemplate.from_template(value)
-        model = ChatOllama(model=MODEL_NAME, format="json")
-        chain = prompt | model
-        if data[key] and  len(data[key])>5:
-            response = chain.invoke({"cv_text": data[key]})
-            content = response.content
-            cleaned_content = content.strip()
-            try:
-                json_data = json.loads(cleaned_content)
-                #  check the key json_data[key] 
+        json_data = get_data_using_llm(data[key],value,"",MODEL_NAME)
+        try:
+            # json_data = json.loads(cleaned_content)
+            #  check the key json_data[key] 
 
-                
-                if(json_data and json_data[key] ):
-                    structured_data[key]=json_data[key]
-                if key=="general":
-                    email = find_email_from_text(cv_data)
-                    if email:
-                        structured_data[key]["email"] = email
-            except json.JSONDecodeError as e:
-                print(f"Failed to decode JSON {e}")
-            except Exception as e:
-                print(f"Failed to decode JSON {json_data}")
-                # throw e
-                raise e
+            
+            if(json_data and json_data[key] ):
+                structured_data[key]=json_data[key]
+            if key=="general":
+                email = find_email_from_text(cv_data)
+                if email:
+                    structured_data[key]["email"] = email
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode JSON {e}")
+        except Exception as e:
+            print(f"Failed to decode JSON {json_data}")
+            # throw e
+            raise e
     return structured_data
     
 def parser_md_to_json(data_path):
@@ -133,7 +135,8 @@ def parser_md_to_json(data_path):
 
     for filename in md_files:
         #  check the file is already existing
-        path_to_save=os.path.join("processed/json/"+PARSER, filename.replace(".md", ".json"))
+        os.makedirs(os.path.join("processed",PROJECT,"json",PARSER,MODEL_NAME),exist_ok=True)
+        path_to_save=os.path.join("processed",PROJECT,"json",PARSER,MODEL_NAME, filename.replace(".md", ".json"))
         if os.path.exists(path_to_save):
             if not should_owerrite:
                 print(f"File {filename} already exists. Skipping...")
@@ -159,7 +162,8 @@ def parser_md_to_json(data_path):
 
 if __name__ == "__main__":
     # Example usage
-    parser_md_to_json("processed/md")
+
+    parser_md_to_json(os.path.join("processed",PROJECT,"md",PARSER))
     # output = parser_with_llm("processed/json/marker")
     
     # # Optional: save to a file to verify

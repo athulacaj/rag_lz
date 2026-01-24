@@ -53,7 +53,7 @@ def get_md_data_from_marker(path, useOcr=True, keep_table_structure=False):
 
 
 
-def load_documents_with_marker(data_path: str,is_markdown: bool = True, keep_table_structure: bool = False, skip_condition_func: callable = lambda x: False) -> List[Document]:
+def load_documents_with_marker(data_path: str,is_markdown: bool = True,  skip_condition_func: callable = lambda x: False,keep_table_structure: bool = False,) -> List[Document]:
 
 
     if not os.path.exists(data_path):

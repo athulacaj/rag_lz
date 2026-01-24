@@ -1,0 +1,55 @@
+{
+    "general": "{0}------------------------------------------------\n\n# **Athul Jacob**\n\n\nathul9040@gmail.com \u00a7\n\n\n# SENIOR FLUTTER DEVELOPER\n\n![](_page_0_Picture_4.jpeg)",
+    "summary": "Versatile developer passionate about continuous learning and implementation in both frontend and backend technologies. Proficient in Flutter, React.js, and Node.js.",
+    "languages": "English Malayalam",
+    "skills": "Flutter Node.js React.js\n\nFast Learner Programming\n\nAdaptability Git Swagger\n\nJavascript Firebase Typescript\n\nExpress MongoDB\n\nPostgreSQL Docker\n\n# **Links**\n\n[Linkedin : athul-jacob-923950213](https://www.linkedin.com/in/athul-jacob-923950213/)\n\n[Github : athulacaj](https://github.com/athulacaj)\n\nPlaystore: www.attaras.com.",
+    "interests": "Playing Football\n\nTeaching",
+    "experience": "### **Flutter Developer** 02/2023 - Present\n\nVistas Global\n\nManaging a project with a team of three developers, leveraging my backend expertise to facilitate frontend understanding, integrating the chat feature with my socket.io knowledge, and utilizing a reactive programming approach. I also got experience with RxDart, the Agora Video Call SDK and backend technologies like prisma, swagger.\n\n#### **Software Engineer** 02/2022 - 02/2023 | Trivandrum\n\nLambdaZen India PVT LTD\n\nExperienced React.js Developer with a proven track record of collaborating in a dynamic team of four to deliver efficient and scalable solutions. Proficient in implementing custom hooks, leveraging the Context API for streamlined state management, and utilizing the Material-UI component library for a polished user interface. Successfully integrated the xlsx package to handle large Excel and CSV files, implementing a chunk-wise upload strategy for optimal data transfer to the server. Additionally, extended expertise to Node.js, contributing to the development and maintenance of APIs for seamless system functionality.\n\n#### **Fullstack Developer** 09/2019 - 12/2021\n\nFreelancer\n\nAs a freelance developer, I successfully undertook diverse projects, showcasing proficiency in HTML, CSS, JavaScript, Flutter, and Node.js. Notably, I developed a comprehensive Wholesale Management App for a client using Flutter, with Firebase Firestore serving as the database and Node.js for the backend. This app included an integrated payment gateway for seamless transactions. Additionally, I contributed to a web app aimed at providing bank coaching to students, demonstrating adaptability across various technologies to meet client needs effectively.",
+    "education": "**MCA** 07/2020 - 07/2022 | Mangalore\n\nSt Aloysius College\n\n**B.Sc Physics** 07/2006 - 07/2019\n\n{1}------------------------------------------------\n\n# **My Projects**\n\n#### **Bingo Game**\n\nCreated an interactive bingo game, available on the Google Play Store ( https://play.google.com/store/apps/details?id=co.athuljacobacaj.bingo ), that offers versatile gameplay options. Players can enjoy the game either solo against the computer or connect with friends for multiplayer fun, choosing between online and local modes. The game provides a dynamic and social bingo experience tailored for both individual and group play.\n\n#### **SAV Cherupuzha App**\n\nDeveloped a comprehensive Wholesale Order Management System, accessible via the Google Play Store: https://play.google.com/store/apps/details?id=co.attaras.sav. This system caters to three distinct user roles?Admin, Salespersons, and Customers?providing a streamlined platform for managing wholesale orders of vegetables. Admins can add Salespersons and Customers, gaining insights into overall order data for efficient procurement decisions. Salespersons assist Customers in placing orders through the app, providing guidance as needed. Customers utilize the app to place orders for vegetables needed the next day, enhancing convenience. Key functionalities include a user-friendly interface, order assistance, admin control for user management, efficient vendor interaction, area-specific reports, and printable order details. This project optimizes the wholesale order process, improving communication and workflow while enhancing customer service\n\n### **Math Skills Enhancement Web App**\n\nCheck out our interactive web app at https://cubitacademy.github.io/multquiz/. Designed to elevate students' mathematical proficiency, this platform offers engaging quizzes focused on multiplication, squares, addition, cubes, LCM, and average calculations. Users can challenge themselves with a variety of questions presented in a game-like format, providing an enjoyable and effective way to sharpen their math skills.\n\n# **My Packages**\n\n#### **flutter: flutter\\_express**\n\nhttps://pub.dev/packages/flutter\\_express\n\nFlutter\\_Express is a lightweight and user-friendly routing package\n\n#### **flutter: any\\_screen**\n\nhttps://pub.dev/packages/any\\_screen\n\nFlutter package that simplifies the process of building responsive UIs.",
+    "structured_data": {
+        "general": {
+            "name": "Athul Jacob",
+            "email": "athul9040@gmail.com",
+            "position": "SENIOR FLUTTER DEVELOPER"
+        },
+        "skills": [
+            "Flutter",
+            "Node.js",
+            "React.js",
+            "Programming",
+            "Adaptability",
+            "Git",
+            "Swagger",
+            "Javascript",
+            "Firebase",
+            "Typescript",
+            "Express",
+            "MongoDB",
+            "PostgreSQL",
+            "Docker"
+        ],
+        "experience": [
+            {
+                "company_name": "Vistas Global",
+                "start_date": "02/2023",
+                "end_date": "Present",
+                "position": "Flutter Developer",
+                "description": "Managing a project with a team of three developers, leveraging my backend expertise to facilitate frontend understanding, integrating the chat feature with my socket.io knowledge, and utilizing a reactive programming approach. I also got experience with RxDart, the Agora Video Call SDK and backend technologies like prisma, swagger."
+            },
+            {
+                "company_name": "LambdaZen India PVT LTD",
+                "start_date": "02/2022",
+                "end_date": "02/2023",
+                "position": "Software Engineer",
+                "description": "Experienced React.js Developer with a proven track record of collaborating in a dynamic team of four to deliver efficient and scalable solutions. Proficient in implementing custom hooks, leveraging the Context API for streamlined state management, and utilizing the Material-UI component library for a polished user interface. Successfully integrated the xlsx package to handle large Excel and CSV files, implementing a chunk-wise upload strategy for optimal data transfer to the server. Additionally, extended expertise to Node.js, contributing to the development and maintenance of APIs for seamless system functionality."
+            },
+            {
+                "company_name": "Freelancer",
+                "start_date": "09/2019",
+                "end_date": "12/2021",
+                "position": "Fullstack Developer",
+                "description": "As a freelance developer, I successfully undertook diverse projects, showcasing proficiency in HTML, CSS, JavaScript, Flutter, and Node.js. Notably, I developed a comprehensive Wholesale Management App for a client using Flutter, with Firebase Firestore serving as the database and Node.js for the backend. This app included an integrated payment gateway for seamless transactions. Additionally, I contributed to a web app aimed at providing bank coaching to students, demonstrating adaptability across various technologies to meet client needs effectively."
+            }
+        ]
+    }
+}

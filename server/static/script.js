@@ -280,6 +280,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const button = chatForm.querySelector('button');
         button.disabled = true;
 
+        showLoading();
+
+
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 480000); // 8 minutes timeout
@@ -302,14 +305,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
 
+            hideLoading();
+
+
             if (data.error) {
                 addMessage('Error: ' + data.error, 'bot');
             } else {
                 addMessage(data.response, 'bot');
             }
         } catch (error) {
+            hideLoading();
             addMessage('Network Error: ' + error.message, 'bot');
         } finally {
+
             button.disabled = false;
         }
     });
@@ -338,4 +346,27 @@ document.addEventListener('DOMContentLoaded', () => {
         // Auto-scroll
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+
+    function showLoading() {
+        const loaderDiv = document.createElement('div');
+        loaderDiv.className = 'typing-indicator-container';
+        loaderDiv.id = 'loading-indicator';
+        loaderDiv.innerHTML = `
+            <div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        `;
+        chatMessages.appendChild(loaderDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function hideLoading() {
+        const loader = document.getElementById('loading-indicator');
+        if (loader) {
+            loader.remove();
+        }
+    }
 });
+

@@ -1,0 +1,41 @@
+{
+    "general": "{0}------------------------------------------------\n\n# ABHIJITH JS\n\n## N O D E J S B A C K E N D E N G I N E E R\n\n- +91 7012391742\n- jsabhijith1290@gmail.com\n- Thiruvananthapuram, Kerala",
+    "summary": "Backend Software Engineer with 1.4 years of experience in building scalable REST APIs and server-side applications using Node.js, Express, MongoDB, and MySQL. Looking to contribute to impactful projects in a collaborative and fastpaced environment while continuing to enhance my backend engineering expertise.",
+    "experience": "",
+    "skills": "- Languages: JavaScript (Node.js), Java (basic)\n- Backend: Node.js, Express.js\n- Databases: MongoDB, MySQL\n- Version Control Systems: Git, GitLab\n- Tools and IDEs: Postman, VS Code, Eclipse\n- Core Concepts: REST API, CRUD Operations, MVC Architecture",
+    "projects": "#### **1. Hospital Management System**\n\n- Tech Stack: Node.js, Express.js, MongoDB,\n- **Ywait-** A modular healthcare appointment management system built for multi-branch medical/service organizations to manage consultants, patients, and appointments\n\n#### Key Features:\n\n- Role-based access for Admins, Doctors, and Patients\n- Patient account creation, visit tracking, and history\n- Daily/weekly/monthly analytics dashboard\n- RESTful API architecture with secure login and session management\n\n## **2. Sports Portfolio Management System**\n\n- Tech Stack: Node.js, Express.js, MySQL\n- **Sportfolio-** A web platform to manage athlete profiles, achievements, and performance tracking across different sports.\n\n#### Key Features:\n\n- RESTful backend APIs developed using Express.js and MySQL\n- Category-based management of Athletes and sports",
+    "education": "#### **JAVA FULLSTACK DEVELOPMENT**\n\n\u2022From STDC, CDAC, Ministry of Electronics and Information Technology, Government of India -2023\n\nAcademic Project- React.js based video streaming platform\n\n#### **KALINGA UNIVERSITY**\n\nBSc. Biotechnology 2020-23",
+    "languages": "- English (Fluent)\n- Malayalam (Native)\n- Hindi (Fluent)\n- Tamil (Basic)",
+    "structured_data": {
+        "general": {
+            "name": "ABHIJITH JS",
+            "email": "jsabhijith1290@gmail.com",
+            "position": "NODEJS BACKEND ENGINEER"
+        },
+        "skills": [
+            "JavaScript (Node.js)",
+            "Java (basic)",
+            "Node.js",
+            "Express.js",
+            "MongoDB",
+            "MySQL",
+            "Git",
+            "GitLab",
+            "Postman",
+            "VS Code",
+            "Eclipse",
+            "REST API",
+            "CRUD Operations",
+            "MVC Architecture"
+        ],
+        "experience": [
+            {
+                "company_name": "",
+                "start_date": "",
+                "end_date": "",
+                "position": "",
+                "description": ""
+            }
+        ]
+    }
+}

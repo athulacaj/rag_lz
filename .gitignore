@@ -7,4 +7,5 @@ vector_db_at/
 .env
 processed/md/
 processed/json/
+processed/
 db.db

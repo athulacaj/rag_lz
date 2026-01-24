@@ -1,4 +1,4 @@
-from config import MODEL_NAME,PARSER,DB_NAME,DB_PATH,EMBEDDING_MODEL_NAME, COLLECTION_NAME
+from config import MODEL_NAME,PARSER,DB_NAME,DB_PATH,EMBEDDING_MODEL_NAME, COLLECTION_NAME,PROJECT
 import os
 import json
 import functions.database_utils as db_utils
@@ -19,7 +19,7 @@ def create_tables():
 
 
 def insert_data():
-    path=os.path.join("processed/json/"+PARSER)
+    path=os.path.join("processed",PROJECT,"json",PARSER,MODEL_NAME)
     for filename in os.listdir(path):
         if filename.endswith(".json"):
             with open(os.path.join(path, filename), "r", encoding="utf-8") as f:

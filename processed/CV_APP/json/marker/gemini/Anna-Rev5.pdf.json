@@ -1,0 +1,41 @@
+{
+    "general": "{0}------------------------------------------------\n\n# **Anna Mary Joy**\n\n### **Full-Stack Developer**\n\n+919567170459 agnesmary891@gmail.com 4C Brown Stone Manor, Padamugal, Kakkanad, Kerala",
+    "summary": "A final year B.Tech Information Technology student with experience in web development. Demonstrated expertise in utilizing a variety of programming languages and technologies including Python, C, C++, React, and Node.js. Proven ability to enhance application functionality and performance through academic projects and professional internships. Adept at collaborating within teams to achieve project goals. Effective communicator and proactive leader in extracurricular engagements.",
+    "education": "# **Cochin University of Science and Technology (SOE)**\n\nB.Tech in Information Technology Graduation Date: April 2025\n\n# **Relevant Coursework:**\n\n- Programming: Python, C, C++, HTML, CSS, TypeScript, React, SQL, Java (basics), Node.js\n- Information Technology: Data Structures and Algorithms, Object-Oriented Programming, Operating Systems, SDLC",
+    "experience": "# **Project Intern at N-OMS**\n\n- Contributed to the N-OMS project, a suite of integrated applications for optimizing organizational operations.\n- Added modules to the Org Activity Management web application, ensuring effective communication within the organization.\n- Utilized React, TypeScript, Node.js, and REST APIs to enhance the application.\n- Collaborated with the team to integrate functionalities and improve system performance.",
+    "projects": "\u2022 Created a web application called 'MyTodos ' using Reactjs.",
+    "interests": "- Hosted the 'UAV Flight Control Systems and Technologies' workshop at Cochin University of Science and Technology.\n- Served as the Outreach Head for TedxCusat.\n- Member of the college women's Throwball team.",
+    "skills": "- **Languages**: Python, Java (basic), C, C++, HTML, CSS, SQL, TypeScript, JavaScript, Java(basics)\n- **Technical Skills**: Software Engineering, Data Structures, REST APIs",
+    "certifications": "\u2022 Python course from Kaggle\n\nCertificates Link",
+    "languages": "- English\n- Malayalam\n\n{1}------------------------------------------------",
+    "structured_data": {
+        "general": {
+            "name": "Anna Mary Joy",
+            "email": "agnesmary891@gmail.com",
+            "position": "Full-Stack Developer"
+        },
+        "skills": [
+            "Python",
+            "Java",
+            "C",
+            "C++",
+            "HTML",
+            "CSS",
+            "SQL",
+            "TypeScript",
+            "JavaScript",
+            "Software Engineering",
+            "Data Structures",
+            "REST APIs"
+        ],
+        "experience": [
+            {
+                "company_name": "N-OMS",
+                "start_date": "",
+                "end_date": "",
+                "position": "Project Intern",
+                "description": "Contributed to the N-OMS project, a suite of integrated applications for optimizing organizational operations. Added modules to the Org Activity Management web application, ensuring effective communication within the organization. Utilized React, TypeScript, Node.js, and REST APIs to enhance the application. Collaborated with the team to integrate functionalities and improve system performance."
+            }
+        ]
+    }
+}

@@ -85,8 +85,8 @@ def query_rag(query_text, model_name=None, embedding_model=None, parser=None, db
     section_names=section["sections"]
     logger.info(f"Identified sections: {section_names}")
     need_more_context=True
-    if len(section_names)==1:
-        if section_names[0] in ["general","skills","experience"]:
+    if len(section_names)>0:
+        if any(section in ["general", "skills", "experience"] for section in section_names):
                 # get sql query and data from db
             with get_connection(current_db) as conn:
                 schema=db_utils.get_schema(conn)
@@ -114,7 +114,7 @@ def query_rag(query_text, model_name=None, embedding_model=None, parser=None, db
                                 ]
                             )
                             sql_data_str+="\n# end of SQL Data\n"
-            if(sql_data_str is not None and sql_data_str!=""):
+            if(len(section_names)==1 and sql_data_str is not None and sql_data_str!=""):
                 need_more_context_dict=check_need_more_context_needed(polished_question,sql_data_str)
                 need_more_context=need_more_context_dict["need_more_context"]=="True"
 

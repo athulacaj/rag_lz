@@ -1,0 +1,44 @@
+{
+    "general": "{0}------------------------------------------------\n\n# Gayathri SV\n\nSENIOR SOFTWARE ENGINEER",
+    "summary": "Results-driven Senior Software Engineer with extensive expertise in HTML, CSS, JavaScript, ReactJS, and NodeJS. Leveraging over six years of experience in software development to create innovative web applications and streamline user experiences. Renowned for exceptional skills in manual testing and deployment, as well as proficient use of Jira for agile project management. Holds a Bachelor of Technology in Computer Science Engineering from the University of Kerala. Committed to delivering scalable solutions and driving technological advancements in fast-paced environments.",
+    "experience": "#### **Senior Software Engineer, LambdaZen India Private Limited, Kerala**\n\n1 2 / 2 0 1 8 - P re s e n t\n\n- Engineered and developed high-quality software solutions tailored to client needs.\n- Collaborated with cross-functional teams for streamlined software development processes.\n- Mentored junior engineers, fostering skill development and adherence to best practices.\n- Executed comprehensive code reviews to maintain high coding standards and quality.\n- Implemented robust software quality assurance protocols to identify and rectify defects.\n- Mentored and coached team members to improve their understanding of Agile/Scrum principles and best practices\n\n#### **System Engineer, IPSR Solutions Ltd, Kerala**\n\n1 1 / 2 0 1 6 - 1 1 / 2 0 1 8\n\n- Designed, developed, and maintained advanced IT systems and infrastructures aligned with organizational requirements.\n- Evaluated business needs and formulated tailored IT solutions to enhance functionality.\n- Optimized IT system performance and provided actionable improvement recommendations.\n- Collaborated with cross-functional teams to ensure seamless system integration.",
+    "education": "**Bachelor of Technology in Computer Science Engineering, University of Kerala, Trivandrum**\n\n0 7 / 2 0 1 0 - 0 5 / 2 0 1 4\n\n**Higher Secondary Education, Central Board of Secondary Education, Trivandrum**\n\n#### 0 3 / 2 0 0 8 - 0 5 / 2 0 1 0",
+    "personal": "Srisai, VGRA-22, Kokkodu, Ambalamukku, Kowdiar P.O Trivandrum, India +91 7907675011 svgayathri92@gmail.com\n\nDATE OF BIRTH\n\n24/11/1992\n\nIndian\n\n## LinkedIn\n\n[Gayathri SV](https://www.linkedin.com/in/gayathri-sv-14a0b548?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)",
+    "skills": "HTML, CSS, JavaScript, ReactJS, NodeJS, MySQL, Jira proficient, Testing and deployment",
+    "languages": "English\n\nMalayalam\n\nHindi\n\nTamil\n\n{1}------------------------------------------------",
+    "certifications": "**Certified Scrum Master (CSM) - ScrumAlliance**\n\n1 0 / 2 0 2 5\n\n**Red Hat Certified Engineer (RHCE)** \n\n0 6 / 2 0 1 8\n\nCertification Id: 180-079-022\n\n**Red Hat Certified System Administrator(RHCSA)**\n\n0 4 / 2 0 1 8\n\nCertification Id: 180-079-022",
+    "structured_data": {
+        "general": {
+            "name": "Gayathri SV",
+            "email": "svgayathri92@gmail.com",
+            "position": "SENIOR SOFTWARE ENGINEER"
+        },
+        "skills": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "ReactJS",
+            "NodeJS",
+            "MySQL",
+            "Jira",
+            "Testing",
+            "Deployment"
+        ],
+        "experience": [
+            {
+                "company_name": "LambdaZen India Private Limited",
+                "start_date": "12/2018",
+                "end_date": "Present",
+                "position": "Senior Software Engineer",
+                "description": "- Engineered and developed high-quality software solutions tailored to client needs.\n- Collaborated with cross-functional teams for streamlined software development processes.\n- Mentored junior engineers, fostering skill development and adherence to best practices.\n- Executed comprehensive code reviews to maintain high coding standards and quality.\n- Implemented robust software quality assurance protocols to identify and rectify defects.\n- Mentored and coached team members to improve their understanding of Agile/Scrum principles and best practices"
+            },
+            {
+                "company_name": "IPSR Solutions Ltd",
+                "start_date": "11/2016",
+                "end_date": "11/2018",
+                "position": "System Engineer",
+                "description": "- Designed, developed, and maintained advanced IT systems and infrastructures aligned with organizational requirements.\n- Evaluated business needs and formulated tailored IT solutions to enhance functionality.\n- Optimized IT system performance and provided actionable improvement recommendations.\n- Collaborated with cross-functional teams to ensure seamless system integration."
+            }
+        ]
+    }
+}
