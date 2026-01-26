@@ -1,0 +1,188 @@
+import streamlit as st
+import chromadb
+import sys
+import os
+import pandas as pd
+
+# Add current directory to path so we can import from arv
+sys.path.append(os.getcwd())
+
+from arv.config import DB_PATH, COLLECTION_NAME
+
+# --- Page Configuration ---
+st.set_page_config(
+    page_title="ChromaDB Explorer (ARV)",
+    layout="wide",
+    page_icon="🧊"
+)
+
+# --- Custom Styling ---
+st.markdown("""
+<style>
+    /* Global Styles */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    
+    /* Card Styling */
+    div[data-testid="stVerticalBlock"] > div[style*="flex-direction: column;"] > div[data-testid="stVerticalBlock"] {
+        background-color: #262730;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        background: linear-gradient(90deg, #4776E6 0%, #8E54E9 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .metric-card {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+    }
+    .metric-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #fff;
+    }
+    .metric-label {
+        font-size: 14px;
+        color: #aaa;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# --- Database Connection ---
+@st.cache_resource
+def get_collection():
+    # Adjust DB_PATH to be relative to where the script is run if it's not absolute
+    # In arv/config.py DB_PATH is "chroma_db_arv"
+    # If running from root, it should be "arv/chroma_db_arv" if the config implies relative to package
+    # However, ingest.py runs from arv/ possibly? No, ingest.py imports config.
+    # Let's assume the config path is relative to the execution root or we need to fix it.
+    
+    # Check if we are running from root or arv
+    # If running from root (where view_chroma.py is), and config says "chroma_db_arv",
+    # and ingestion created it in "arv/chromadb_arv" OR just "chromadb_arv" depending on CWD.
+    
+    # Based on previous file list, `chroma_db_arv` was NOT in `arv/`.
+    # It might be in the root if ingestion was run from root.
+    # But `ingest.py` is in `arv/`. If I ran `python arv/ingest.py` from root, it would create in root.
+    # If I ran `cd arv; python ingest.py`, it would create in `arv/`.
+    
+    # We will try to find it.
+    
+    target_path = DB_PATH
+    if not os.path.exists(target_path):
+         # Try looking in arv/ folder
+         if os.path.exists(os.path.join("arv", DB_PATH)):
+             target_path = os.path.join("arv", DB_PATH)
+    
+    client = chromadb.PersistentClient(path=target_path)
+    try:
+        collection = client.get_collection(name=COLLECTION_NAME)
+        return collection, target_path
+    except ValueError:
+        return None, target_path
+
+def main():
+    # Header
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.title("ChromaDB Explorer")
+        st.caption(f"Configured Collection: {COLLECTION_NAME}")
+    
+    try:
+        collection, actual_db_path = get_collection()
+        
+        if collection is None:
+             st.error(f"❌ Collection '{COLLECTION_NAME}' not found at '{actual_db_path}'.")
+             st.info("Run `arv/ingest.py` to create the database and collection.")
+             return
+
+        # Fetch data
+        # ChromaDB get() returns dict with ids, embeddings, documents, metadatas
+        data = collection.get()
+        
+        ids = data["ids"]
+        documents = data["documents"] if data["documents"] else []
+        metadatas = data["metadatas"] if data["metadatas"] else []
+        
+        total_docs = len(ids)
+        
+        # --- Sidebar ---
+        st.sidebar.markdown("## ⚙️ Filter & Options")
+        st.sidebar.caption(f"DB Path: `{actual_db_path}`")
+        search_query = st.sidebar.text_input("🔍 Search Content", placeholder="Type to search...")
+        
+        # Stats in Sidebar
+        st.sidebar.markdown("---")
+        st.sidebar.markdown("### Collection Stats")
+        st.sidebar.markdown(f"**Total Documents:** `{total_docs}`")
+        
+        if not ids:
+            st.warning("⚠️ The collection is empty.")
+            return
+
+        # --- Filtering Logic ---
+        filtered_indices = []
+        for i in range(total_docs):
+            doc_content = documents[i] if documents[i] else ""
+            if search_query:
+                if search_query.lower() in doc_content.lower():
+                    filtered_indices.append(i)
+            else:
+                filtered_indices.append(i)
+
+        st.markdown(f"### Showing {len(filtered_indices)} Documents")
+        st.markdown("---")
+
+        # --- Display Cards ---
+        if not filtered_indices:
+            st.info("No documents match your search.")
+        
+        for idx in filtered_indices:
+            doc_id = ids[idx]
+            content = documents[idx]
+            meta = metadatas[idx]
+            
+            # Create a card-like container
+            with st.container(border=True):
+                c1, c2 = st.columns([1, 3])
+                
+                with c1:
+                    st.caption("🆔 DOCUMENT ID")
+                    st.code(doc_id, language="text")
+                    
+                    if meta:
+                        st.caption("📋 METADATA")
+                        st.json(meta, expanded=False)
+                    else:
+                        st.caption("No Metadata")
+
+                with c2:
+                    st.caption("📄 CONTENT PREVIEW")
+                    
+                    # Handle None content
+                    if content:
+                        screen_content = content[:400] + "..." if len(content) > 400 else content
+                        st.markdown(f"**{screen_content}**")
+                        
+                        with st.expander("Show Full Content"):
+                            st.text_area(label="Full Text", value=content, height=200, key=f"text_{doc_id}", disabled=True)
+                    else:
+                        st.italic("No content content.")
+
+    except Exception as e:
+        st.error(f"❌ Error connecting to ChromaDB: {e}")
+
+if __name__ == "__main__":
+    main()
