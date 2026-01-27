@@ -13,7 +13,8 @@ import json
 
 
 ENTITY_TYPES = {
-    "PERSON": "Names of candidates, managers, or employees (e.g., 'John', 'Amal')",
+    "PERSON": "Names of candidates (e.g., 'John', 'Amal')",
+    "EMAIL": "Email addresses of candidates (e.g., 'john@gmail.com')",
     "SKILL": "Technical or soft skills (e.g., 'python', 'leadership')",
     "ATTRIBUTE": "Properties being queried (e.g., 'experience', 'skills', 'manager')",
     "ORGANIZATION": "Company names",

@@ -384,7 +384,7 @@ def get_data_by_name(conn, name_or_list):
         
     return results
 
-def get_data_by_sql(conn, sql, params=None):
+def get_data_by_sql(conn, sql, is_dict=False):
     """
     Execute a read-only SQL query.
     
@@ -393,11 +393,14 @@ def get_data_by_sql(conn, sql, params=None):
     :param params: tuple of values (optional)
     :return: list of rows
     """
+    if is_dict: 
+        conn.row_factory = sqlite3.Row
+
     if not sql.strip().upper().startswith("SELECT"):
         logging.error("Only SELECT queries are allowed.")
         return None
         
-    return read_records(conn, sql, params)
+    return read_records(conn, sql)
 
 def create_qa_tables(conn):
     """

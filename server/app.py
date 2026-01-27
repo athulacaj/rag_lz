@@ -9,13 +9,13 @@ import io
 # We need to add project_root to sys.path
 # AND common directory to sys.path because query.py uses 'from functions...' and 'from config...'
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-common_dir = os.path.join(project_root, 'common')
+# common_dir = os.path.join(project_root, 'common')
 sys.path.append(project_root)
-sys.path.append(common_dir)
+# sys.path.append(common_dir)
 
-import functions.database_utils as db_utils
-from config import DB_NAME,EMBEDDING_MODELS,MODEL_COLLECTIONS,PARSER_LIST
-
+import common.functions.database_utils as db_utils
+from common.config import DB_NAME,EMBEDDING_MODELS,MODEL_COLLECTIONS,PARSER_LIST
+from cv_agent.cv_agent_main import cv_agent_query
 
 
 
@@ -98,6 +98,45 @@ def chat():
 
     try:
         answer, context_str = query_rag(question, model_name=model, embedding_model=embedding_model, parser=parser, db_name=db_name)
+        
+        # Save to DB
+        captured_logs = log_capture_string.getvalue()
+        try:
+            with db_utils.get_db_connection(DB_NAME) as conn:
+                db_utils.save_qa_log(conn, question, answer, captured_logs, context_str)
+        except Exception as db_e:
+            rag_logger.error(f"Error saving to DB: {db_e}")
+
+        return jsonify({'response': answer})
+    except Exception as e:
+        rag_logger.error(f"Error in query_rag: {e}")
+        return jsonify({'error': str(e)}), 500
+    finally:
+        rag_logger.removeHandler(ch)
+        log_capture_string.close()
+@app.route('/chat/cv_agent', methods=['POST'])
+def chat_v2():
+    data = request.json
+    question = data.get('question')
+    if not question:
+        return jsonify({'error': 'No question provided'}), 400
+    
+    # We call query_rag. It logs to 'rag_logger', which emits to websocket.
+    # It returns the string result.
+    
+    # Capture logs
+    log_capture_string = io.StringIO()
+    ch = logging.StreamHandler(log_capture_string)
+    ch.setLevel(logging.INFO)
+    rag_logger.addHandler(ch)
+    
+    db_name = data.get('db_name')
+    embedding_model = data.get('embedding_model')
+    model = data.get('model')
+    parser = data.get('parser')
+
+    try:
+        answer, context_str = cv_agent_query(question, model_name=model, embedding_model=embedding_model, parser=parser, db_name=db_name)
         
         # Save to DB
         captured_logs = log_capture_string.getvalue()

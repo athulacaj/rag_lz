@@ -9,8 +9,8 @@ from langchain.tools import tool
 from common.functions.planner_utils import get_tool_schema, ToolsGroup, to_llm_json
 import json
 from typing import Dict, List, Any
-from tools.specific_tools import cv_specific_tools
-from ner import NERAgent
+from cv_agent.tools.specific_tools import cv_specific_tools
+from cv_agent.ner import NERAgent
 
 
 # ============================================================================
@@ -103,9 +103,9 @@ PLANNING RULES:
 2. For chained queries, use "$state.key_name" to reference previous step outputs
 3. Each step should process ONE entity or perform ONE operation
 4. Specify dependencies in "depends_on" array
-5. For comparisons, gather all data first, then use compare_experience tool
-6. Include "entity_binding" to track which entity each step processes
-7. Define how to synthesize the final answer in "answer_synthesis"
+5. Include "entity_binding" to track which entity each step processes
+6. Define how to synthesize the final answer in "answer_synthesis"
+7. Check that need multiple tools or not to answer the question
 
 QUERY TYPE STRATEGIES:
 

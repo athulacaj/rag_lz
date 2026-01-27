@@ -286,8 +286,14 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 480000); // 8 minutes timeout
-
-            const response = await fetch('/chat', {
+            // const agent="cv_agent"//check this from query parmas agent
+            const params = new URLSearchParams(window.location.search);
+            const agent = params.get("agent");
+            let api_url = "/chat"
+            if (agent) {
+                api_url = "/chat/cv_agent"
+            }
+            const response = await fetch(api_url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
